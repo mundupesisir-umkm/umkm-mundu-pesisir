@@ -107,7 +107,7 @@ Pastikan perangkat Anda telah terpasang:
 
 ### 2. Kloning Repository
 ```bash
-git clone https://github.com/CatwisBot/umkm-mundu-pesisir.git
+git clone https://github.com/mundupesisir-umkm/umkm-mundu-pesisir.git
 cd umkm-mundu-pesisir
 ```
 
