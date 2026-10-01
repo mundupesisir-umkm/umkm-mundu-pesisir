@@ -41,6 +41,17 @@ export const AllProductsCatalogView: React.FC<AllProductsCatalogViewProps> = ({
   const [sortBy, setSortBy] = useState("default");
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
 
+  // Sync search query from URL query parameters (?q=... or ?search=...)
+  React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const q = params.get("q") || params.get("search");
+      if (q) {
+        setSearchQuery(q);
+      }
+    }
+  }, []);
+
   const sortOptions = useMemo(() => [
     { id: "default", label: t.catalog.sortDefault },
     { id: "price-asc", label: t.catalog.sortPriceAsc },
