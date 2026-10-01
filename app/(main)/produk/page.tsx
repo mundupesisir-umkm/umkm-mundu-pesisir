@@ -3,7 +3,7 @@ import { AllProductsCatalogView } from "@/components/products";
 import { fetchProducts } from "@/lib/supabase";
 
 const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://umkm-mundupesisir.vercel.app";
+  process.env.NEXT_PUBLIC_SITE_URL || "https://umkmmundupesisir.com";
 
 export const revalidate = 60;
 
