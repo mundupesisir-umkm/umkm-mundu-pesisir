@@ -10,7 +10,7 @@ import { fetchProducts, fetchTestimonials } from "@/lib/supabase";
 export const revalidate = 60;
 
 const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://umkm-mundupesisir.vercel.app";
+  process.env.NEXT_PUBLIC_SITE_URL || "https://umkmmundupesisir.com";
 
 export const metadata: Metadata = {
   title: "Beranda - Siwang & Seafood Khas Cirebon Langsung dari Pengrajin",
