@@ -7,3 +7,4 @@ export * from "./hero";
 export * from "./contact";
 export * from "./profile";
 export * from "./products";
+export * from "./site";
