@@ -5,20 +5,33 @@ import Link from "next/link";
 import { ArrowRight, Send, ShoppingBag } from "lucide-react";
 import { PRODUCT_CATALOG_CONFIG } from "@/constants/products";
 import { useProducts } from "@/hooks/useProducts";
+import { useLanguage } from "@/lib/i18n";
 import { ProductCard } from "./ProductCard";
 import { cn } from "@/lib";
 
 interface ProductCatalogSectionProps {
   id?: string;
   className?: string;
+  initialProducts?: import("@/constants/products").ProductItem[];
 }
 
 export const ProductCatalogSection: React.FC<ProductCatalogSectionProps> = ({
   id = "produk",
   className,
+  initialProducts,
 }) => {
-  const { products, isLoading } = useProducts();
+  const { products, isLoading } = useProducts(initialProducts);
+  const { t, language } = useLanguage();
   const [selectedCategory, setSelectedCategory] = useState("all");
+
+  const categories = useMemo(
+    () => [
+      { id: "all", label: t.catalog.allCategory },
+      { id: "siwang", label: t.catalog.siwangCategory },
+      { id: "seafood", label: t.catalog.seafoodCategory },
+    ],
+    [t]
+  );
 
   const filteredProducts = useMemo(() => {
     if (selectedCategory === "all") {
@@ -46,16 +59,16 @@ export const ProductCatalogSection: React.FC<ProductCatalogSectionProps> = ({
           {/* Left Title Area */}
           <div>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#0a2642] tracking-tight font-sans">
-              {PRODUCT_CATALOG_CONFIG.headline}
+              {t.catalog.sectionHeadline}
             </h2>
             <p className="text-xs sm:text-sm text-[#4b5563] mt-1 font-medium">
-              {PRODUCT_CATALOG_CONFIG.subtitle}
+              {t.catalog.sectionSubtitle}
             </p>
           </div>
 
           {/* Right Category Filter Pills (matching reference image) */}
           <div className="flex items-center gap-2 overflow-x-auto pb-1 md:pb-0 scrollbar-none">
-            {PRODUCT_CATALOG_CONFIG.categories.map((cat) => {
+            {categories.map((cat) => {
               const isActive = selectedCategory === cat.id;
               return (
                 <button
@@ -144,7 +157,7 @@ export const ProductCatalogSection: React.FC<ProductCatalogSectionProps> = ({
               href="/produk"
               className="inline-flex items-center gap-3 px-8 py-3.5 rounded-full bg-white hover:bg-teal-50 text-[#0a2642] hover:text-[#008276] border-2 border-[#008276] text-xs sm:text-sm md:text-base font-bold shadow-xs hover:shadow-md transition-all duration-200 group"
             >
-              <span>{PRODUCT_CATALOG_CONFIG.viewAllButtonText}</span>
+              <span>{t.catalog.viewAllBtn}</span>
               <ArrowRight className="w-4 h-4 text-[#008276] group-hover:translate-x-1.5 transition-transform duration-200" />
             </Link>
           </div>
