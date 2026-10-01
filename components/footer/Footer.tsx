@@ -7,11 +7,15 @@ import { FooterInfo } from "./FooterInfo";
 import { FOOTER_CONFIG } from "@/constants";
 import { cn } from "@/lib";
 
+import { useLanguage } from "@/lib/i18n";
+
 interface FooterProps {
   className?: string;
 }
 
 export const Footer: React.FC<FooterProps> = ({ className }) => {
+  const { t } = useLanguage();
+
   return (
     <footer
       className={cn(
@@ -42,7 +46,7 @@ export const Footer: React.FC<FooterProps> = ({ className }) => {
         <div className="border-t border-[#d8c7b4] pt-8 flex items-center justify-center text-center">
           {/* Centered Copyright Text matching reference screenshot */}
           <p className="text-xs text-[#766350] font-sans">
-            © {new Date().getFullYear()} {FOOTER_CONFIG.brandTitle}. All rights reserved.
+            © {new Date().getFullYear()} {t.footer.copyright} {t.footer.allRightsReserved}
           </p>
         </div>
       </div>
