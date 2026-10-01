@@ -10,6 +10,7 @@ import { NavSearch } from "./NavSearch";
 import { NavLanguage } from "./NavLanguage";
 import { MobileMenu } from "./MobileMenu";
 import { DEFAULT_NAV_ITEMS, SITE_CONFIG } from "@/constants";
+import { useLanguage, Language } from "@/lib/i18n";
 import { cn } from "@/lib";
 
 export { DEFAULT_NAV_ITEMS };
@@ -17,31 +18,40 @@ export { DEFAULT_NAV_ITEMS };
 export const Navbar: React.FC<NavbarProps> = ({
   brandName = SITE_CONFIG.name,
   brandHref = "/",
-  items = DEFAULT_NAV_ITEMS,
-  defaultLanguage = SITE_CONFIG.defaultLanguage,
+  items,
   onSearch,
   onLanguageChange,
 }) => {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [currentLang, setCurrentLang] = useState<string>(defaultLanguage);
+  const { language, setLanguage, t } = useLanguage();
+
+  // Localized navigation items
+  const navItems = React.useMemo(() => {
+    if (items) return items;
+    return [
+      { label: t.nav.home, href: "/" },
+      { label: t.nav.products, href: "/produk" },
+      { label: t.nav.testimonials, href: "/testimoni" },
+      { label: t.nav.profile, href: "/profil" },
+      { label: t.nav.contact, href: "/kontak" },
+    ];
+  }, [items, t]);
 
   // Compute active item automatically based on Next.js current pathname
   const activeHref = React.useMemo(() => {
-    // 1. Exact match for dedicated pages like /testimoni, /kontak
-    const exactMatch = items.find(
+    const exactMatch = navItems.find(
       (item) => item.href !== "/" && (pathname === item.href || pathname.startsWith(item.href + "/"))
     );
     if (exactMatch) return exactMatch.href;
 
-    // 2. Default to homepage when at root
     if (pathname === "/") return "/";
 
-    return items[0]?.href || "/";
-  }, [pathname, items]);
+    return navItems[0]?.href || "/";
+  }, [pathname, navItems]);
 
   const handleLangChange = (lang: LanguageOption) => {
-    setCurrentLang(lang.code);
+    setLanguage(lang.code as Language);
     onLanguageChange?.(lang);
   };
 
@@ -57,7 +67,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             {/* Desktop Menu - active on lg (laptops) and xl (desktop), cleanly hidden on tablet & mobile */}
             <div className="hidden lg:flex items-center shrink-0">
               <NavMenu
-                items={items}
+                items={navItems}
                 activeHref={activeHref}
               />
             </div>
@@ -67,7 +77,10 @@ export const Navbar: React.FC<NavbarProps> = ({
           <div className="flex items-center gap-1.5 sm:gap-2 xl:gap-3 shrink-0">
             {/* Desktop Search - shown on lg+ */}
             <div className="hidden lg:block">
-              <NavSearch onSearch={onSearch} />
+              <NavSearch
+                onSearch={onSearch}
+                placeholder={t.nav.searchPlaceholder}
+              />
             </div>
 
             {/* Subtle Vertical Divider */}
@@ -76,7 +89,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             {/* Desktop Language Switcher - shown on lg+ */}
             <div className="hidden lg:block">
               <NavLanguage
-                defaultCode={currentLang}
+                defaultCode={language}
                 onChange={handleLangChange}
               />
             </div>
@@ -118,10 +131,10 @@ export const Navbar: React.FC<NavbarProps> = ({
       <MobileMenu
         isOpen={mobileOpen}
         onClose={() => setMobileOpen(false)}
-        items={items}
+        items={navItems}
         activeHref={activeHref}
         onSearch={onSearch}
-        currentLanguage={currentLang}
+        currentLanguage={language}
         onLanguageChange={handleLangChange}
       />
     </header>
