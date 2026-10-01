@@ -2,9 +2,11 @@
 
 import React from "react";
 import Link from "next/link";
-import { Phone, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { CTA_CONFIG } from "@/constants";
+import { WhatsAppIcon } from "@/components/icons";
 import { FishIllustration } from "./FishIllustration";
+import { useLanguage } from "@/lib/i18n";
 import { cn } from "@/lib";
 
 interface CtaSectionProps {
@@ -12,6 +14,8 @@ interface CtaSectionProps {
 }
 
 export const CtaSection: React.FC<CtaSectionProps> = ({ className }) => {
+  const { t } = useLanguage();
+
   return (
     <section className={cn("w-full py-12 sm:py-16 px-4 sm:px-6 lg:px-8", className)}>
       <div className="max-w-7xl mx-auto">
@@ -32,17 +36,17 @@ export const CtaSection: React.FC<CtaSectionProps> = ({ className }) => {
               {/* Top Badge */}
               <div className="inline-flex items-center gap-2 self-start px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-[#f4ece1] text-[#8a6843] border border-[#d8c7b4]">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#8a6843] animate-pulse" />
-                <span>{CTA_CONFIG.badge}</span>
+                <span>{t.cta.badge}</span>
               </div>
 
               {/* Main Headline */}
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#0a2642] tracking-tight font-sans leading-tight">
-                {CTA_CONFIG.headline}
+                {t.cta.title}
               </h2>
 
               {/* Subtitle / Description */}
               <p className="text-xs sm:text-sm text-[#2c4a6b] leading-relaxed font-sans max-w-xl">
-                {CTA_CONFIG.description}
+                {t.cta.subtitle}
               </p>
             </div>
 
@@ -55,18 +59,18 @@ export const CtaSection: React.FC<CtaSectionProps> = ({ className }) => {
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2.5 px-6 py-3 rounded-full bg-[#0a2642] hover:bg-[#071c30] text-white text-xs sm:text-sm font-bold transition-all duration-200 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 text-center group"
               >
-                <div className="w-4 h-4 rounded-full bg-emerald-500/20 flex items-center justify-center">
-                  <Phone className="w-3 h-3 text-emerald-400 group-hover:scale-110 transition-transform" />
+                <div className="w-5 h-5 rounded-full bg-emerald-500/20 flex items-center justify-center">
+                  <WhatsAppIcon className="w-3.5 h-3.5 text-emerald-400 group-hover:scale-110 transition-transform" />
                 </div>
-                <span>{CTA_CONFIG.whatsappButtonText}</span>
+                <span>{t.cta.whatsappBtn}</span>
               </a>
 
               {/* Secondary Catalog Action */}
               <Link
-                href={CTA_CONFIG.catalogUrl}
+                href="/produk"
                 className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-transparent backdrop-blur-sm hover:bg-[#f4ece1] text-[#0a2642] border border-[#0a2642] text-xs sm:text-sm font-bold transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 text-center group"
               >
-                <span>{CTA_CONFIG.catalogButtonText}</span>
+                <span>{t.cta.catalogBtn}</span>
                 <ArrowRight className="w-3.5 h-3.5 text-[#0a2642] group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>
