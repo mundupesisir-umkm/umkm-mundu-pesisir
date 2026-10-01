@@ -19,41 +19,40 @@ import {
 } from "lucide-react";
 import { PRODUCT_CATALOG_CONFIG, ProductItem } from "@/constants/products";
 import { useProducts } from "@/hooks/useProducts";
+import { useLanguage } from "@/lib/i18n";
+import { WhatsAppIcon } from "@/components/icons";
 import { ProductCard } from "./ProductCard";
+import { PageHero } from "@/components/ui";
 import { cn, formatWhatsAppNumber } from "@/lib";
 
-const SORT_OPTIONS = [
-  { id: "default", label: "Urutan Rekomendasi" },
-  { id: "price-asc", label: "Harga: Termurah" },
-  { id: "price-desc", label: "Harga: Tertinggi" },
-  { id: "name-asc", label: "Nama: A — Z" },
-];
+interface AllProductsCatalogViewProps {
+  initialProducts?: ProductItem[];
+  defaultCategory?: string;
+}
 
-const FAQS = [
-  {
-    q: "Berapa lama daya tahan Sambal Siwang di suhu ruangan?",
-    a: "Siwang kami tahan hingga 3–4 bulan di suhu ruang selama disimpan rapat dalam standing pouch zipper dan tidak terkena sinar matahari langsung atau kelembapan tinggi.",
-  },
-  {
-    q: "Apakah produk terasi rebon menggunakan pewarna sintetis atau pengawet?",
-    a: "Sama sekali tidak. Warna merah kecokelatan alami berasal dari fermentasi 100% udang rebon asli perairan pesisir Cirebon dengan garam laut alami.",
-  },
-  {
-    q: "Bagaimana cara memesan dalam jumlah banyak (grosir / oleh-oleh)?",
-    a: "Anda dapat menghubungi WhatsApp admin kami langsung. Kami menyediakan harga khusus reseller, kemasan kardus khusus oleh-oleh, dan bisa request stiker atau label khusus hajatan.",
-  },
-  {
-    q: "Apakah aman dikirim ke luar kota atau luar Pulau Jawa?",
-    a: "Sangat aman. Setiap pesanan dikemas menggunakan standing pouch tebal dan dilapisi bubble wrap serta kardus tebal untuk memastikan kerenyahan produk tetap terjaga hingga tujuan.",
-  },
-];
-
-export const AllProductsCatalogView: React.FC = () => {
-  const { products, isLoading } = useProducts();
+export const AllProductsCatalogView: React.FC<AllProductsCatalogViewProps> = ({
+  initialProducts,
+  defaultCategory = "all",
+}) => {
+  const { products, isLoading } = useProducts(initialProducts);
+  const { t } = useLanguage();
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [selectedCategory, setSelectedCategory] = useState(defaultCategory);
   const [sortBy, setSortBy] = useState("default");
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
+
+  const sortOptions = useMemo(() => [
+    { id: "default", label: t.catalog.sortDefault },
+    { id: "price-asc", label: t.catalog.sortPriceAsc },
+    { id: "price-desc", label: t.catalog.sortPriceDesc },
+    { id: "name-asc", label: t.catalog.sortNameAsc },
+  ], [t]);
+
+  const localizedCategories = useMemo(() => [
+    { id: "all", label: t.catalog.allCategory },
+    { id: "siwang", label: t.catalog.siwangCategory },
+    { id: "seafood", label: t.catalog.seafoodCategory },
+  ], [t]);
 
   // Filter & Sort Logic
   const filteredAndSortedProducts = useMemo(() => {
@@ -99,68 +98,37 @@ export const AllProductsCatalogView: React.FC = () => {
   return (
     <div className="w-full bg-[#f8fafc] min-h-screen">
       {/* ========================================================= */}
-      {/* 1. HERO / BANNER HEADER                                   */}
+      {/* 1. HERO / BANNER HEADER (Modular PageHero)                */}
       {/* ========================================================= */}
-      <section className="relative overflow-hidden bg-linear-to-b from-[#0a2642] via-[#0c2f52] to-[#081f36] text-white pt-24 sm:pt-28 pb-14 sm:pb-20 px-4 sm:px-6 lg:px-8">
-        {/* Subtle Decorative Background Circles */}
-        <div className="absolute top-0 right-0 -translate-y-12 translate-x-12 w-96 h-96 bg-[#008276]/20 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-10 translate-y-10 w-80 h-80 bg-teal-400/10 rounded-full blur-2xl pointer-events-none" />
-
-        <div className="max-w-6xl mx-auto text-center relative z-10">
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-[#7ee3c8] text-xs sm:text-sm font-semibold tracking-wide mb-4">
-            <span>KATALOG RESMI UMKM DESA MUNDU PESISIR</span>
-          </div>
-
-          {/* Title */}
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight font-sans text-white max-w-4xl mx-auto leading-tight">
-            Produk Olahan Pesisir{" "}
-            <span className="text-transparent bg-clip-text bg-linear-to-r from-[#7ee3c8] via-teal-200 to-amber-200">
-              Otentik Cirebon
-            </span>
-          </h1>
-
-          {/* Subtitle */}
-          <p className="text-slate-300 text-sm sm:text-base md:text-lg max-w-2xl mx-auto mt-4 leading-relaxed font-normal">
-            {PRODUCT_CATALOG_CONFIG.pageSubtitle}
-          </p>
-
-          {/* Trust Value Badges Ribbon */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 max-w-4xl mx-auto mt-8 sm:mt-10">
-            <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-white/5 border border-white/10 text-left">
-              <Award className="w-5 h-5 text-[#7ee3c8] shrink-0" />
-              <div>
-                <p className="text-xs font-bold text-white">100% Rebon Pesisir</p>
-                <p className="text-[11px] text-slate-300">Fermentasi murni tanpa kimia</p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-white/5 border border-white/10 text-left">
-              <ShieldCheck className="w-5 h-5 text-[#7ee3c8] shrink-0" />
-              <div>
-                <p className="text-xs font-bold text-white">Higienis & P-IRT</p>
-                <p className="text-[11px] text-slate-300">Standar mutu teruji</p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-white/5 border border-white/10 text-left">
-              <Truck className="w-5 h-5 text-[#7ee3c8] shrink-0" />
-              <div>
-                <p className="text-xs font-bold text-white">Kirim Se-Indonesia</p>
-                <p className="text-[11px] text-slate-300">Pouch zipper kedap udara</p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-white/5 border border-white/10 text-left">
-              <CheckCircle2 className="w-5 h-5 text-[#7ee3c8] shrink-0" />
-              <div>
-                <p className="text-xs font-bold text-white">Berdayakan Nelayan</p>
-                <p className="text-[11px] text-slate-300">Langsung dari pengrajin</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <PageHero
+        badgeIcon={<ShoppingBag className="w-4 h-4 text-[#7ee3c8]" />}
+        badgeText={t.catalog.officialBadge}
+        titleStart={t.catalog.titleStart}
+        titleHighlight={t.catalog.titleHighlight}
+        subtitle={t.catalog.subtitle}
+        ribbonItems={[
+          {
+            icon: <Award className="w-5 h-5 text-[#7ee3c8] shrink-0" />,
+            title: t.catalog.trust1,
+            subtitle: t.catalog.trust1Sub,
+          },
+          {
+            icon: <ShieldCheck className="w-5 h-5 text-[#7ee3c8] shrink-0" />,
+            title: t.catalog.trust2,
+            subtitle: t.catalog.trust2Sub,
+          },
+          {
+            icon: <Truck className="w-5 h-5 text-[#7ee3c8] shrink-0" />,
+            title: t.catalog.trust3,
+            subtitle: t.catalog.trust3Sub,
+          },
+          {
+            icon: <CheckCircle2 className="w-5 h-5 text-[#7ee3c8] shrink-0" />,
+            title: t.catalog.trust4,
+            subtitle: t.catalog.trust4Sub,
+          },
+        ]}
+      />
 
       {/* ========================================================= */}
       {/* 2. CONTROLS: SEARCH, CATEGORIES, & SORTING BAR            */}
@@ -175,7 +143,7 @@ export const AllProductsCatalogView: React.FC = () => {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Cari Siwang original, pedas, kerupuk, terasi, dll..."
+                placeholder={t.catalog.searchPlaceholder}
                 className="w-full pl-11 pr-10 py-3 rounded-2xl bg-slate-50 border border-slate-200 text-xs sm:text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#008276]/30 focus:border-[#008276] transition-all"
               />
               {searchQuery && (
@@ -197,7 +165,7 @@ export const AllProductsCatalogView: React.FC = () => {
                 onChange={(e) => setSortBy(e.target.value)}
                 className="py-3 px-4 rounded-2xl bg-slate-50 border border-slate-200 text-xs sm:text-sm font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-[#008276]/30 focus:border-[#008276] cursor-pointer"
               >
-                {SORT_OPTIONS.map((opt) => (
+                {sortOptions.map((opt) => (
                   <option key={opt.id} value={opt.id}>
                     {opt.label}
                   </option>
@@ -211,9 +179,9 @@ export const AllProductsCatalogView: React.FC = () => {
             <div className="flex flex-wrap items-center gap-2">
               <span className="text-xs font-bold text-slate-400 uppercase tracking-wider mr-1 flex items-center gap-1">
                 <Filter className="w-3.5 h-3.5" />
-                Kategori:
+                {t.catalog.filterLabel}
               </span>
-              {PRODUCT_CATALOG_CONFIG.categories.map((cat) => {
+              {localizedCategories.map((cat) => {
                 const isActive = selectedCategory === cat.id;
                 return (
                   <button
@@ -236,7 +204,7 @@ export const AllProductsCatalogView: React.FC = () => {
             {/* Counter & Reset Filter */}
             <div className="flex items-center gap-3">
               <span className="text-xs font-semibold text-slate-500">
-                Menampilkan <strong>{filteredAndSortedProducts.length}</strong> produk
+                {t.catalog.showingCount} <strong>{filteredAndSortedProducts.length}</strong> produk
               </span>
               {hasActiveFilters && (
                 <button
@@ -244,7 +212,7 @@ export const AllProductsCatalogView: React.FC = () => {
                   onClick={resetFilters}
                   className="text-xs font-bold text-[#008276] hover:text-[#064e3b] underline cursor-pointer"
                 >
-                  Reset Filter
+                  {t.catalog.resetFilter}
                 </button>
               )}
             </div>
@@ -287,10 +255,10 @@ export const AllProductsCatalogView: React.FC = () => {
               <ShoppingBag className="w-8 h-8" />
             </div>
             <h3 className="text-xl font-extrabold text-[#0a2642] font-sans">
-              Katalog Produk Belum Tersedia
+              {t.catalog.emptyTitle}
             </h3>
             <p className="text-xs sm:text-sm text-slate-500 mt-2 max-w-md mx-auto leading-relaxed">
-              Saat ini belum ada produk yang terdaftar di dalam database UMKM Desa Mundu Pesisir. Silakan hubungi kami untuk informasi pesanan atau gunakan portal admin untuk mengelola katalog.
+              {t.catalog.emptyDesc}
             </p>
             <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
               <a
@@ -301,8 +269,8 @@ export const AllProductsCatalogView: React.FC = () => {
                 rel="noopener noreferrer"
                 className="px-6 py-2.5 rounded-full bg-[#00c853] hover:bg-[#00b049] text-white text-xs sm:text-sm font-bold shadow-xs transition-colors inline-flex items-center gap-2"
               >
-                <Send className="w-4 h-4" />
-                <span>Hubungi via WhatsApp</span>
+                <WhatsAppIcon className="w-4 h-4 text-white" />
+                <span>{t.catalog.contactWaBtn}</span>
               </a>
               <Link
                 href="/admin"
@@ -317,17 +285,17 @@ export const AllProductsCatalogView: React.FC = () => {
           <div className="text-center py-16 px-4 bg-white rounded-3xl border border-slate-200/80 shadow-xs max-w-xl mx-auto">
             <ShoppingBag className="w-12 h-12 text-slate-300 mx-auto mb-3" />
             <h3 className="text-lg font-bold text-slate-800">
-              Tidak Ada Produk yang Ditemukan
+              {t.catalog.emptyFilterTitle}
             </h3>
             <p className="text-xs sm:text-sm text-slate-500 mt-1 max-w-sm mx-auto">
-              Tidak ada produk yang cocok dengan pencarian &quot;{searchQuery}&quot;. Coba gunakan kata kunci lain atau bersihkan filter.
+              {t.catalog.emptyFilterDesc}
             </p>
             <button
               type="button"
               onClick={resetFilters}
               className="mt-5 px-5 py-2.5 rounded-full bg-[#008276] hover:bg-[#006e64] text-white text-xs sm:text-sm font-bold shadow-xs transition-colors cursor-pointer"
             >
-              Lihat Semua Produk
+              {t.catalog.viewAllBtn}
             </button>
           </div>
         )}
@@ -340,18 +308,18 @@ export const AllProductsCatalogView: React.FC = () => {
         <div className="text-center mb-8">
           <div className="inline-flex items-center gap-1.5 text-xs font-bold text-[#008276] uppercase tracking-wider mb-2">
             <HelpCircle className="w-4 h-4" />
-            <span>PANDUAN PEMBELIAN & PENYIMPANAN</span>
+            <span>{t.catalog.faqBadge}</span>
           </div>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-[#0a2642] font-sans">
-            Pertanyaan Seputar Produk
+            {t.catalog.faqTitle}
           </h2>
           <p className="text-xs sm:text-sm text-slate-500 mt-1 max-w-md mx-auto">
-            Informasi penting mengenai kualitas bahan baku, ketahanan simpan, dan prosedur pengiriman produk UMKM kami.
+            {t.catalog.faqSubtitle}
           </p>
         </div>
 
         <div className="space-y-3">
-          {FAQS.map((faq, index) => {
+          {t.catalog.faqs.map((faq, index) => {
             const isOpen = activeFaq === index;
             return (
               <div
