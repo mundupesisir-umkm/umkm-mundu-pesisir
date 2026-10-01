@@ -1,0 +1,42 @@
+{
+  "name": "UMKM Mundu Pesisir",
+  "short_name": "Mundu Pesisir",
+  "description": "Portal Resmi UMKM Desa Mundu Pesisir - Siwang & Olahan Seafood Khas Cirebon",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#008276",
+  "orientation": "portrait-primary",
+  "lang": "id",
+  "icons": [
+    {
+      "src": "/Mundupesisir.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/Mundupesisir.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    }
+  ],
+  "categories": ["food", "shopping", "business"],
+  "shortcuts": [
+    {
+      "name": "Katalog Produk",
+      "short_name": "Katalog",
+      "description": "Lihat semua produk UMKM Mundu Pesisir",
+      "url": "/produk",
+      "icons": [{ "src": "/Mundupesisir.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Hubungi Kami",
+      "short_name": "Kontak",
+      "description": "Kontak dan lokasi gerai UMKM",
+      "url": "/kontak",
+      "icons": [{ "src": "/Mundupesisir.png", "sizes": "96x96" }]
+    }
+  ]
+}
