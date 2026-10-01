@@ -7,18 +7,25 @@ import { TESTIMONIALS_CONFIG } from "@/constants/testimonials";
 import { TestimonialCard } from "./TestimonialCard";
 import { TestimonialSectionProps, TestimonialItem } from "./types";
 import { useTestimonials } from "@/hooks/useTestimonials";
+import { WhatsAppIcon } from "@/components/icons";
+import { useLanguage } from "@/lib/i18n";
 import { cn } from "@/lib";
 
 export const TestimonialSection: React.FC<TestimonialSectionProps> = ({
   className,
-  badge = TESTIMONIALS_CONFIG.badge,
-  headline = TESTIMONIALS_CONFIG.headline,
-  linkText = TESTIMONIALS_CONFIG.linkText,
+  badge: propBadge,
+  headline: propHeadline,
+  linkText: propLinkText,
   linkHref = TESTIMONIALS_CONFIG.linkHref,
   items: propItems,
 }) => {
-  const { testimonials: dbItems, isLoading } = useTestimonials();
+  const { t } = useLanguage();
+  const { testimonials: dbItems, isLoading } = useTestimonials(propItems);
   const items = propItems || dbItems;
+
+  const badge = propBadge || t.testimonials.sectionBadge;
+  const headline = propHeadline || t.testimonials.sectionHeadline;
+  const linkText = propLinkText || t.testimonials.sectionLinkText;
 
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [itemsPerPage, setItemsPerPage] = useState<number>(3);
@@ -189,9 +196,10 @@ export const TestimonialSection: React.FC<TestimonialSectionProps> = ({
                 href="https://wa.me/6281214145254?text=Halo%20Admin%20UMKM%20Mundu%20Pesisir,%20saya%20ingin%20memberikan%20ulasan%20dan%20testimoni%20produk."
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-5 py-2.5 rounded-xl bg-[#00c853] hover:bg-[#00b049] text-white text-xs sm:text-sm font-bold shadow-xs transition-colors"
+                className="px-5 py-2.5 rounded-xl bg-[#00c853] hover:bg-[#00b049] text-white text-xs sm:text-sm font-bold shadow-xs transition-colors inline-flex items-center gap-2"
               >
-                Kirim Ulasan via WhatsApp
+                <WhatsAppIcon className="w-4 h-4 text-white" />
+                <span>Kirim Ulasan via WhatsApp</span>
               </a>
             </div>
           </div>
