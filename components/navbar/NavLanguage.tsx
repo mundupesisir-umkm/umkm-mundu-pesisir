@@ -35,6 +35,13 @@ export const NavLanguage: React.FC<NavLanguageProps> = ({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  useEffect(() => {
+    const match = languages.find((l) => l.code === defaultCode);
+    if (match) {
+      setSelected(match);
+    }
+  }, [defaultCode, languages]);
+
   const handleSelect = (lang: LanguageOption) => {
     setSelected(lang);
     setIsOpen(false);
