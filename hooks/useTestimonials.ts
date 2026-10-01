@@ -4,14 +4,15 @@ import { useState, useEffect, useCallback } from "react";
 import { TestimonialItem } from "@/constants/testimonials";
 import { fetchTestimonials } from "@/lib/supabase";
 
-export function useTestimonials() {
-  const [testimonials, setTestimonials] = useState<TestimonialItem[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+export function useTestimonials(initialTestimonials?: TestimonialItem[]) {
+  const [testimonials, setTestimonials] = useState<TestimonialItem[]>(
+    initialTestimonials && initialTestimonials.length > 0 ? initialTestimonials : []
+  );
+  const [isLoading, setIsLoading] = useState<boolean>(!initialTestimonials || initialTestimonials.length === 0);
   const [error, setError] = useState<string | null>(null);
   const [tableExists, setTableExists] = useState<boolean>(true);
 
   const loadTestimonials = useCallback(async () => {
-    setIsLoading(true);
     try {
       const res = await fetchTestimonials();
       if (!res.error) {
@@ -19,7 +20,9 @@ export function useTestimonials() {
         setTableExists(res.tableExists !== false);
         setError(null);
       } else {
-        setTestimonials(res.data || []);
+        if (!initialTestimonials || initialTestimonials.length === 0) {
+          setTestimonials(res.data || []);
+        }
         setTableExists(res.tableExists !== false);
         setError(res.error);
       }
@@ -27,15 +30,19 @@ export function useTestimonials() {
       const msg =
         err instanceof Error ? err.message : "Error fetching testimonials";
       setError(msg);
-      setTestimonials([]);
+      if (!initialTestimonials || initialTestimonials.length === 0) {
+        setTestimonials([]);
+      }
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [initialTestimonials]);
 
   useEffect(() => {
-    loadTestimonials();
-  }, [loadTestimonials]);
+    if (!initialTestimonials || initialTestimonials.length === 0) {
+      loadTestimonials();
+    }
+  }, [loadTestimonials, initialTestimonials]);
 
   return { testimonials, isLoading, error, tableExists, reload: loadTestimonials };
 }
