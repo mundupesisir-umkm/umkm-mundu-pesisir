@@ -9,23 +9,38 @@ import {
   Share2,
   ChevronDown,
   ChevronUp,
+  Star,
+  Award,
+  Truck,
+  Sparkles,
 } from "lucide-react";
 import { useTestimonials } from "@/hooks/useTestimonials";
+import { useLanguage } from "@/lib/i18n";
+import { WhatsAppIcon } from "@/components/icons";
 import { TestimonialCard } from "./TestimonialCard";
+import { TestimonialItem } from "@/constants/testimonials";
+import { PageHero } from "@/components/ui";
 import { cn } from "@/lib";
 
-const CATEGORIES = [
-  { id: "all", label: "Semua Ulasan" },
-  { id: "siwang", label: "Siwang (Terasi Bawang)" },
-  { id: "ikan", label: "Olahan Ikan & Kerupuk" },
-  { id: "seafood", label: "Seafood Kering" },
-];
+interface AllTestimonialsViewProps {
+  initialTestimonials?: TestimonialItem[];
+}
 
-export const AllTestimonialsView: React.FC = () => {
-  const { testimonials, isLoading } = useTestimonials();
+export const AllTestimonialsView: React.FC<AllTestimonialsViewProps> = ({
+  initialTestimonials,
+}) => {
+  const { testimonials, isLoading } = useTestimonials(initialTestimonials);
+  const { t } = useLanguage();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [isExpanded, setIsExpanded] = useState(false);
+
+  const categories = useMemo(() => [
+    { id: "all", label: t.testimonials.allReviews },
+    { id: "siwang", label: t.catalog.siwangCategory },
+    { id: "ikan", label: t.catalog.crackersCategory },
+    { id: "seafood", label: t.catalog.seafoodCategory },
+  ], [t]);
 
   const filteredTestimonials = useMemo(() => {
     return testimonials.filter((item) => {
@@ -76,68 +91,46 @@ export const AllTestimonialsView: React.FC = () => {
   return (
     <div className="w-full min-h-screen bg-slate-50/60 pb-12 sm:pb-16">
       {/* ========================================================= */}
-      {/* 1. COMPACT HERO HEADER AREA                               */}
+      {/* 1. HERO / BANNER HEADER (Modular PageHero)                */}
       {/* ========================================================= */}
-      <section className="w-full relative overflow-hidden bg-linear-to-b from-[#f2f9f8] via-[#e8f6f5] to-[#f4f7f6] pt-6 sm:pt-8 md:pt-10 pb-6 sm:pb-8 px-4 sm:px-6 lg:px-8 border-b border-[#d8ebe7]">
-        {/* Subtle Ambient Coastal Glow */}
-        <div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4/5 max-w-4xl h-56 bg-linear-to-r from-teal-200/30 via-cyan-100/40 to-emerald-200/30 rounded-3xl blur-3xl pointer-events-none z-0"
-          aria-hidden="true"
-        />
-
-        <div className="max-w-5xl mx-auto relative z-10 flex flex-col items-center text-center">
-          {/* Badge */}
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-[11px] sm:text-xs font-bold uppercase tracking-wider bg-[#f4ece1] text-[#8a6843] border border-[#d8c7b4] mb-2 sm:mb-2.5">
-            <ShieldCheck className="w-3.5 h-3.5 text-[#8a6843]" />
-            <span>KEPUASAN PELANGGAN</span>
-          </div>
-
-          {/* Main Title */}
-          <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold text-[#0a2642] tracking-tight font-sans leading-tight">
-            Ulasan Asli Pembeli Kuliner Mundu Pesisir
-          </h1>
-
-          {/* Compact Description */}
-          <p className="mt-2 text-xs sm:text-sm text-slate-600 leading-relaxed font-sans max-w-xl">
-            Cerita kepuasan pelanggan dari berbagai kota di Indonesia yang telah
-            menikmati keaslian rasa Siwang renyah dan olahan hasil laut nelayan
-            kami.
-          </p>
-
-          {/* Compact Summary Strip */}
-          <div className="mt-4 sm:mt-5 inline-flex flex-wrap items-center justify-center gap-2.5 sm:gap-6 py-2 px-4 sm:px-6 rounded-xl sm:rounded-2xl bg-white/85 backdrop-blur-xs border border-[#d8ebe7] shadow-xs text-xs font-medium text-[#0a2642]">
-            <div className="flex items-center gap-1">
-              <span className="text-amber-500">⭐</span>
-              <span className="font-bold">5.0 / 5.0</span>
-              <span className="text-slate-500 hidden xs:inline">
-                ({testimonials.length > 0 ? `${testimonials.length}+ Ulasan` : "Ulasan Terpercaya"})
-              </span>
-            </div>
-            <div className="h-3 w-px bg-slate-200 hidden sm:block" aria-hidden="true" />
-            <div className="flex items-center gap-1">
-              <span>🦐</span>
-              <span className="font-bold text-[#008276]">100%</span>
-              <span className="text-slate-600">Rebon & Ikan Asli</span>
-            </div>
-            <div className="h-3 w-px bg-slate-200 hidden sm:block" aria-hidden="true" />
-            <div className="flex items-center gap-1">
-              <span>📦</span>
-              <span className="font-bold">Kirim Nusantara</span>
-            </div>
-            <div className="h-3 w-px bg-slate-200 hidden sm:block" aria-hidden="true" />
-            <div className="flex items-center gap-1">
-              <span>✨</span>
-              <span className="font-bold text-[#008276]">100% Puas</span>
-            </div>
-          </div>
-        </div>
-      </section>
+      <PageHero
+        badgeIcon={<ShieldCheck className="w-4 h-4 text-[#7ee3c8]" />}
+        badgeText={t.testimonials.badge}
+        titleStart={t.testimonials.titleStart}
+        titleHighlight={t.testimonials.titleHighlight}
+        subtitle={t.testimonials.subtitle}
+        ribbonItems={[
+          {
+            icon: <Star className="w-5 h-5 text-amber-400 fill-amber-400 shrink-0" />,
+            title: t.testimonials.ratingText,
+            subtitle:
+              testimonials.length > 0
+                ? `${testimonials.length}+ ${t.testimonials.ratingSub}`
+                : t.testimonials.ratingSub,
+          },
+          {
+            icon: <Award className="w-5 h-5 text-[#7ee3c8] shrink-0" />,
+            title: t.testimonials.naturalText,
+            subtitle: t.testimonials.naturalSub,
+          },
+          {
+            icon: <Truck className="w-5 h-5 text-[#7ee3c8] shrink-0" />,
+            title: t.testimonials.shippingText,
+            subtitle: t.testimonials.shippingSub,
+          },
+          {
+            icon: <Sparkles className="w-5 h-5 text-[#7ee3c8] shrink-0" />,
+            title: t.testimonials.authenticText,
+            subtitle: t.testimonials.authenticSub,
+          },
+        ]}
+      />
 
       {/* ========================================================= */}
       {/* 2. SEARCH & COMPACT FILTER CHIPS                          */}
       {/* ========================================================= */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-4 sm:mt-5">
-        <div className="bg-white rounded-xl sm:rounded-2xl p-3 sm:p-4 border border-slate-200 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-3">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 -mt-6 sm:-mt-8 relative z-20">
+        <div className="bg-white rounded-3xl p-4 sm:p-5 border border-slate-100 shadow-xl shadow-slate-200/70 flex flex-col md:flex-row md:items-center justify-between gap-3">
           {/* Search Input Box */}
           <div className="relative flex-1">
             <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
@@ -148,14 +141,14 @@ export const AllTestimonialsView: React.FC = () => {
                 setSearchQuery(e.target.value);
                 setIsExpanded(false);
               }}
-              placeholder="Cari pembeli, kota (cth: Bekasi, Jakarta), atau kata kunci..."
+              placeholder={t.testimonials.searchPlaceholder}
               className="w-full pl-9 pr-3 py-2 rounded-xl border border-slate-200 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#008276]/30 focus:border-[#008276] transition-all placeholder:text-slate-400"
             />
           </div>
 
           {/* Category Filter Chips */}
           <div className="flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0 scrollbar-none">
-            {CATEGORIES.map((cat) => (
+            {categories.map((cat) => (
               <button
                 key={cat.id}
                 type="button"
@@ -179,18 +172,14 @@ export const AllTestimonialsView: React.FC = () => {
         {/* Counter Info */}
         <div className="flex items-center justify-between text-xs text-slate-500 mt-2.5 px-1">
           <span>
-            Menampilkan{" "}
-            <strong className="text-[#0a2642]">
-              {visibleTestimonials.length}
-            </strong>{" "}
-            dari {filteredTestimonials.length} ulasan
+            {t.testimonials.showingReviews.replace("{count}", String(visibleTestimonials.length)).replace("{total}", String(filteredTestimonials.length))}
           </span>
           {searchQuery && (
             <button
               onClick={() => setSearchQuery("")}
               className="text-[#008276] hover:underline font-medium cursor-pointer"
             >
-              Hapus pencarian
+              {t.catalog.resetFilter}
             </button>
           )}
         </div>
@@ -226,20 +215,20 @@ export const AllTestimonialsView: React.FC = () => {
           <div className="text-center py-16 px-4 bg-white rounded-2xl border border-slate-200 shadow-xs max-w-lg mx-auto">
             <MessageSquareHeart className="w-12 h-12 text-[#8a6843]/50 mx-auto mb-3" />
             <h2 className="text-lg font-bold text-[#0a2642]">
-              Belum Ada Ulasan Testimoni
+              {t.testimonials.emptyTitle}
             </h2>
             <p className="text-xs text-slate-500 mt-1.5 max-w-sm mx-auto leading-relaxed">
-              Saat ini belum ada testimoni pembeli yang terdaftar di dalam database.
-              Kirimkan ulasan Anda untuk dipublikasikan di sini.
+              {t.testimonials.emptyDesc}
             </p>
             <div className="mt-5 flex items-center justify-center gap-3">
               <a
                 href="https://wa.me/6281214145254?text=Halo%20Admin%20UMKM%20Mundu%20Pesisir,%20saya%20ingin%20memberikan%20ulasan%20dan%20testimoni%20produk."
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-5 py-2.5 rounded-xl bg-[#00c853] hover:bg-[#00b049] text-white text-xs sm:text-sm font-bold shadow-xs transition-colors"
+                className="px-5 py-2.5 rounded-xl bg-[#00c853] hover:bg-[#00b049] text-white text-xs sm:text-sm font-bold shadow-xs transition-colors inline-flex items-center gap-2"
               >
-                Kirim Ulasan via WhatsApp
+                <WhatsAppIcon className="w-4 h-4 text-white" />
+                <span>{t.testimonials.sendReviewWa}</span>
               </a>
             </div>
           </div>
@@ -248,10 +237,10 @@ export const AllTestimonialsView: React.FC = () => {
           <div className="text-center py-12 px-4 bg-white rounded-xl border border-slate-200 shadow-xs">
             <MessageSquareHeart className="w-10 h-10 text-slate-300 mx-auto mb-2.5" />
             <h2 className="text-base font-bold text-slate-700">
-              Tidak Ada Ulasan Ditemukan
+              {t.catalog.emptyTitle}
             </h2>
             <p className="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
-              Coba gunakan kata kunci lain atau bersihkan filter di atas.
+              {t.catalog.emptyDesc}
             </p>
             <button
               onClick={() => {
@@ -260,7 +249,7 @@ export const AllTestimonialsView: React.FC = () => {
               }}
               className="mt-3 px-3.5 py-1.5 rounded-xl bg-[#008276] text-white text-xs font-semibold hover:bg-[#006e64] transition-colors cursor-pointer"
             >
-              Reset Filter
+              {t.catalog.resetFilter}
             </button>
           </div>
         ) : (
@@ -285,14 +274,13 @@ export const AllTestimonialsView: React.FC = () => {
                 >
                   {isExpanded ? (
                     <>
-                      <span>Tampilkan Lebih Sedikit</span>
+                      <span>{t.testimonials.showLess}</span>
                       <ChevronUp className="w-4 h-4" />
                     </>
                   ) : (
                     <>
                       <span>
-                        Tampilkan Lebih Banyak (
-                        {filteredTestimonials.length - INITIAL_COUNT} Ulasan Lainnya)
+                        {t.testimonials.showMore} ({filteredTestimonials.length - INITIAL_COUNT})
                       </span>
                       <ChevronDown className="w-4 h-4" />
                     </>
@@ -319,15 +307,13 @@ export const AllTestimonialsView: React.FC = () => {
           <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-5 sm:gap-6">
             <div className="max-w-xl">
               <span className="inline-block px-3 py-1 rounded-xl text-[10px] sm:text-[11px] font-bold uppercase tracking-wider bg-[#008276] text-white mb-1.5">
-                BAGIKAN PENGALAMAN ANDA
+                {t.testimonials.badge}
               </span>
               <h2 className="text-lg sm:text-xl lg:text-2xl font-extrabold tracking-tight font-sans">
-                Sudah Menikmati Kuliner Mundu Pesisir?
+                {t.testimonials.bottomTitle}
               </h2>
               <p className="text-xs sm:text-sm text-slate-300 mt-1.5 leading-relaxed">
-                Ulasan Anda sangat berarti bagi pengrajin Siwang dan perahu
-                nelayan kami. Bagikan kepuasan Anda atau pesan kembali langsung
-                lewat WhatsApp admin resmi.
+                {t.testimonials.bottomSubtitle}
               </p>
             </div>
 
@@ -338,15 +324,15 @@ export const AllTestimonialsView: React.FC = () => {
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-[#00c853] hover:bg-[#00b049] text-white text-xs sm:text-sm font-bold shadow-xs hover:-translate-y-0.5 transition-all text-center"
               >
-                <Share2 className="w-3.5 h-3.5" />
-                <span>Kirim Ulasan via WhatsApp</span>
+                <WhatsAppIcon className="w-3.5 h-3.5 text-white" />
+                <span>{t.testimonials.sendReviewWa}</span>
               </a>
 
               <Link
                 href="/produk"
                 className="inline-flex items-center justify-center px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white text-xs sm:text-sm font-bold transition-all text-center"
               >
-                <span>Jelajahi Produk Lain</span>
+                <span>{t.catalog.viewAllBtn}</span>
               </Link>
             </div>
           </div>
