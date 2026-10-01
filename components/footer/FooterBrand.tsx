@@ -1,8 +1,11 @@
+"use client";
+
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Phone, Mail, MapPin, Globe } from "lucide-react";
 import { FOOTER_CONFIG, SITE_CONFIG } from "@/constants";
+import { useLanguage } from "@/lib/i18n";
 import { cn } from "@/lib";
 
 interface FooterBrandProps {
@@ -10,6 +13,8 @@ interface FooterBrandProps {
 }
 
 export const FooterBrand: React.FC<FooterBrandProps> = ({ className }) => {
+  const { t } = useLanguage();
+
   return (
     <div className={cn("flex flex-col gap-4 max-w-sm", className)}>
       {/* Brand Header with Official Logo */}
@@ -35,7 +40,7 @@ export const FooterBrand: React.FC<FooterBrandProps> = ({ className }) => {
 
       {/* Description */}
       <p className="text-xs text-[#2c4a6b] leading-relaxed font-sans">
-        {FOOTER_CONFIG.description}
+        {t.footer.brandDesc || FOOTER_CONFIG.description}
       </p>
 
       {/* Social & Contact Icons Row (matches reference icon row) */}
