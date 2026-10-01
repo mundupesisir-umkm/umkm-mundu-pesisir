@@ -13,10 +13,14 @@ import {
   ArrowRight,
   Sparkles,
 } from "lucide-react";
-import { VILLAGE_PROFILE_CONFIG, VillageStat } from "@/constants/profile";
+import { useLanguage } from "@/lib/i18n";
+
+import { PageHero } from "@/components/ui";
 
 export const VillageProfileContent: React.FC = () => {
-  const getStatIcon = (icon: VillageStat["icon"]) => {
+  const { t } = useLanguage();
+
+  const getStatIcon = (icon: string) => {
     switch (icon) {
       case "Map":
         return <MapPin className="w-5 h-5 text-[#008276]" />;
@@ -34,45 +38,49 @@ export const VillageProfileContent: React.FC = () => {
   return (
     <div className="w-full min-h-screen bg-slate-50/60 pb-16 sm:pb-20">
       {/* ========================================================= */}
-      {/* 1. HERO HEADER AREA                                       */}
+      {/* 1. HERO / BANNER HEADER (Modular PageHero)                */}
       {/* ========================================================= */}
-      <section className="w-full relative overflow-hidden bg-linear-to-b from-[#f2f9f8] via-[#e8f6f5] to-[#f4f7f6] pt-8 sm:pt-12 md:pt-14 pb-8 sm:pb-12 px-4 sm:px-6 lg:px-8 border-b border-[#d8ebe7]">
-        {/* Coastal Ambient Glow */}
-        <div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4/5 max-w-4xl h-56 bg-linear-to-r from-teal-200/30 via-cyan-100/40 to-emerald-200/30 rounded-full blur-3xl pointer-events-none z-0"
-          aria-hidden="true"
-        />
-
-        <div className="max-w-5xl mx-auto relative z-10 flex flex-col items-center text-center">
-          {/* Badge */}
-          <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-[#f4ece1] text-[#8a6843] border border-[#d8c7b4] mb-3">
-            <Anchor className="w-3.5 h-3.5 text-[#8a6843]" />
-            <span>{VILLAGE_PROFILE_CONFIG.badge}</span>
-          </div>
-
-          {/* Main Title */}
-          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-[#0a2642] tracking-tight font-sans leading-tight">
-            {VILLAGE_PROFILE_CONFIG.headline}
-          </h1>
-
-          {/* Description */}
-          <p className="mt-3.5 text-xs sm:text-sm md:text-base text-slate-600 leading-relaxed font-sans max-w-2xl">
-            {VILLAGE_PROFILE_CONFIG.description}
-          </p>
-        </div>
-      </section>
+      <PageHero
+        badgeIcon={<Anchor className="w-3.5 h-3.5 text-[#7ee3c8]" />}
+        badgeText={t.profile.badge}
+        titleStart={t.profile.titleStart}
+        titleHighlight={t.profile.titleHighlight}
+        subtitle={t.profile.subtitle}
+        ribbonItems={[
+          {
+            icon: <Waves className="w-5 h-5 text-[#7ee3c8] shrink-0" />,
+            title: t.profile.ribbonPesisir,
+            subtitle: t.profile.ribbonPesisirSub,
+          },
+          {
+            icon: <Sparkles className="w-5 h-5 text-[#7ee3c8] shrink-0" />,
+            title: t.profile.ribbonSiwang,
+            subtitle: t.profile.ribbonSiwangSub,
+          },
+          {
+            icon: <ShieldCheck className="w-5 h-5 text-[#7ee3c8] shrink-0" />,
+            title: t.profile.ribbonMangrove,
+            subtitle: t.profile.ribbonMangroveSub,
+          },
+          {
+            icon: <Anchor className="w-5 h-5 text-[#7ee3c8] shrink-0" />,
+            title: t.profile.ribbonNadran,
+            subtitle: t.profile.ribbonNadranSub,
+          },
+        ]}
+      />
 
       {/* ========================================================= */}
       {/* 2. FOUR KEY STATISTICS CARDS                             */}
       {/* ========================================================= */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 -mt-6 sm:-mt-8 relative z-20">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-5">
-          {VILLAGE_PROFILE_CONFIG.stats.map((stat, idx) => (
+          {t.profile.stats.map((stat, idx) => (
             <div
               key={idx}
-              className="rounded-2xl p-4 sm:p-5 bg-white border border-slate-200 shadow-md flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+              className="rounded-3xl p-4 sm:p-5 bg-white border border-slate-100 shadow-xl shadow-slate-200/70 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
             >
-              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-slate-100 flex items-center justify-center mb-3">
+              <div className="w-10 h-10 rounded-2xl bg-teal-50 text-[#008276] flex items-center justify-center mb-3 border border-teal-100">
                 {getStatIcon(stat.icon)}
               </div>
               <div>
@@ -97,19 +105,18 @@ export const VillageProfileContent: React.FC = () => {
       <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-10 sm:mt-14">
         <div className="flex flex-col items-center text-center max-w-2xl mx-auto mb-8 sm:mb-10">
           <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-teal-50 text-[#008276] border border-teal-200 mb-2">
-            <span>PILAR UTAMA DESA</span>
+            <span>{t.profile.pillarsBadge}</span>
           </div>
           <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-[#0a2642] font-sans">
-            Kekuatan Bahari, Tradisi & Kemandirian Warga
+            {t.profile.pillarsTitle}
           </h2>
           <p className="text-xs sm:text-sm text-slate-500 mt-1.5 leading-relaxed">
-            Menelusuri bagaimana Desa Mundu Pesisir menggabungkan kearifan
-            leluhur, ekosistem laut yang asri, dan kekuatan wirausaha perempuan.
+            {t.profile.pillarsSubtitle}
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6">
-          {VILLAGE_PROFILE_CONFIG.pillars.map((pillar, idx) => (
+          {t.profile.pillars.map((pillar, idx) => (
             <div
               key={idx}
               className="rounded-2xl sm:rounded-3xl p-6 sm:p-7 bg-white border border-slate-200 shadow-md flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-xl group"
@@ -138,7 +145,7 @@ export const VillageProfileContent: React.FC = () => {
 
               <div className="mt-5 pt-3.5 border-t border-slate-100 flex items-center gap-1.5 text-xs font-semibold text-[#008276]">
                 <ShieldCheck className="w-4 h-4 text-[#008276]" />
-                <span>Karakteristik Asli Desa</span>
+                <span>{t.profile.pillarBadgeFeature}</span>
               </div>
             </div>
           ))}
@@ -160,20 +167,20 @@ export const VillageProfileContent: React.FC = () => {
           <div className="relative z-10 max-w-4xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-[#008276] text-white mb-3">
               <HeartHandshake className="w-3.5 h-3.5" />
-              <span>SEMANGAT GOTONG ROYONG</span>
+              <span>{t.profile.visionBadge}</span>
             </div>
 
             <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight font-sans">
-              {VILLAGE_PROFILE_CONFIG.vision.title}
+              {t.profile.vision.title}
             </h2>
 
             <p className="mt-3 text-xs sm:text-sm md:text-base text-slate-300 leading-relaxed max-w-3xl">
-              {VILLAGE_PROFILE_CONFIG.vision.description}
+              {t.profile.vision.description}
             </p>
 
             {/* 4 Mission Points */}
             <div className="mt-6 sm:mt-8 grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-              {VILLAGE_PROFILE_CONFIG.vision.points.map((point, idx) => (
+              {t.profile.vision.points.map((point, idx) => (
                 <div
                   key={idx}
                   className="flex items-start gap-2.5 p-3 rounded-xl bg-white/10 backdrop-blur-xs border border-white/10"
@@ -194,20 +201,19 @@ export const VillageProfileContent: React.FC = () => {
         <div className="mt-8 sm:mt-12 rounded-2xl p-5 sm:p-7 bg-white border border-slate-200 shadow-md flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
           <div>
             <h3 className="font-bold text-base sm:text-lg text-[#0a2642]">
-              Dukung Produk Asli Nelayan & UMKM Mundu Pesisir
+              {t.profile.ctaTitle}
             </h3>
             <p className="text-xs text-slate-500 mt-0.5">
-              Setiap toples Siwang dan olahan seafood yang Anda beli langsung
-              berdampak bagi kesejahteraan para nelayan desa kami.
+              {t.profile.ctaSubtitle}
             </p>
           </div>
 
           <div className="flex items-center gap-2.5 shrink-0">
             <Link
-              href="/#produk"
+              href="/produk"
               className="inline-flex items-center justify-center gap-1.5 px-5 py-2.5 rounded-xl bg-[#008276] hover:bg-[#006e64] text-white text-xs sm:text-sm font-bold shadow-xs hover:-translate-y-0.5 transition-all whitespace-nowrap"
             >
-              <span>Jelajahi Produk</span>
+              <span>{t.profile.viewCatalogBtn}</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
 
@@ -215,7 +221,7 @@ export const VillageProfileContent: React.FC = () => {
               href="/kontak"
               className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs sm:text-sm font-semibold transition-all whitespace-nowrap"
             >
-              <span>Hubungi Kami</span>
+              <span>{t.profile.contactVillageBtn}</span>
             </Link>
           </div>
         </div>
