@@ -1,5 +1,8 @@
-import React from "react";
+"use client";
+
+import React, { useMemo } from "react";
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
+import { useLanguage } from "@/lib/i18n";
 import { cn } from "@/lib";
 
 interface FooterInfoProps {
@@ -7,36 +10,41 @@ interface FooterInfoProps {
 }
 
 export const FooterInfo: React.FC<FooterInfoProps> = ({ className }) => {
-  const infoItems = [
-    {
-      icon: MapPin,
-      text: "Desa Mundu Pesisir, Kec. Mundu, Kab. Cirebon, Jawa Barat 45173",
-      href: "https://maps.google.com/?q=Desa+Mundu+Pesisir+Cirebon",
-      target: "_blank",
-    },
-    {
-      icon: Phone,
-      text: "+62 812-1414-5254",
-      href: "https://wa.me/6281214145254",
-      target: "_blank",
-    },
-    {
-      icon: Mail,
-      text: "umkm.mundupesisir@gmail.com",
-      href: "mailto:umkm.mundupesisir@gmail.com",
-    },
-    {
-      icon: Clock,
-      text: "Buka Setiap Hari: 07.30 - 17.00 WIB (Pesan WA 24 Jam)",
-    },
-  ];
+  const { t } = useLanguage();
+
+  const infoItems = useMemo(
+    () => [
+      {
+        icon: MapPin,
+        text: t.footer.addressDesc || "Desa Mundu Pesisir, Kec. Mundu, Kab. Cirebon, Jawa Barat 45173",
+        href: "https://maps.google.com/?q=Desa+Mundu+Pesisir+Cirebon",
+        target: "_blank",
+      },
+      {
+        icon: Phone,
+        text: "+62 812-1414-5254",
+        href: "https://wa.me/6281214145254",
+        target: "_blank",
+      },
+      {
+        icon: Mail,
+        text: "umkm.mundupesisir@gmail.com",
+        href: "mailto:umkm.mundupesisir@gmail.com",
+      },
+      {
+        icon: Clock,
+        text: t.footer.hoursDesc,
+      },
+    ],
+    [t]
+  );
 
   return (
     <div className={cn("flex flex-col gap-3.5 max-w-md", className)}>
       {/* Column Title */}
       <div className="flex items-center gap-2">
         <h4 className="text-xs font-bold uppercase tracking-wider text-[#0a2642] font-sans">
-          Pusat Informasi
+          {t.footer.infoCenter}
         </h4>
         <span className="w-5 h-px bg-[#8a6843]/40" />
       </div>
