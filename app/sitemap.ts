@@ -3,7 +3,7 @@ import { fetchProducts } from "@/lib/supabase";
 import { PRODUCT_CATALOG_CONFIG } from "@/constants/products";
 
 const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://umkm-mundupesisir.vercel.app";
+  process.env.NEXT_PUBLIC_SITE_URL || "https://umkmmundupesisir.com";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
