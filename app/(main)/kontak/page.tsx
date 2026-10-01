@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { ContactPageContent } from "@/components/contact";
 
 const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://umkm-mundupesisir.vercel.app";
+  process.env.NEXT_PUBLIC_SITE_URL || "https://umkmmundupesisir.com";
 
 export const revalidate = 3600;
 
