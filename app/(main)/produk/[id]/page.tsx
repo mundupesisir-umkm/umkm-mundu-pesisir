@@ -41,13 +41,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   if (!p) {
     return {
-      title: "Detail Produk - UMKM Mundu Pesisir",
+      title: "Detail Produk",
       description:
         "Informasi detail produk olahan khas Desa Mundupesisir Cirebon.",
     };
   }
 
-  const title = `${p.name} - UMKM Mundu Pesisir Cirebon`;
+  const title = p.name;
   const description = `${p.description}. Harga: ${p.priceFormatted}. Produk olahan asli pesisir Cirebon, higienis tanpa pengawet kimia. Pesan via WhatsApp, kirim ke seluruh Indonesia.`;
   const imageUrl = p.image?.startsWith("http") ? p.image : `${siteUrl}${p.image}`;
   const productUrl = `${siteUrl}/produk/${p.id}`;
@@ -65,7 +65,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       "pesan whatsapp",
     ],
     openGraph: {
-      title,
+      title: `${p.name} | UMKM Mundu Pesisir`,
       description,
       url: productUrl,
       type: "website",
@@ -80,7 +80,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
     twitter: {
       card: "summary_large_image",
-      title,
+      title: `${p.name} | UMKM Mundu Pesisir`,
       description,
       images: [imageUrl],
     },
