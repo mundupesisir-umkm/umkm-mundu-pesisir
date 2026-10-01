@@ -48,9 +48,13 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
           <div className="w-full">
             <NavSearch
               className="w-full [&>input]:w-full"
+              isMobile={true}
               placeholder="Cari produk atau informasi..."
               onSearch={(q) => {
                 onSearch?.(q);
+              }}
+              onSelectProduct={() => {
+                onClose();
               }}
             />
           </div>
