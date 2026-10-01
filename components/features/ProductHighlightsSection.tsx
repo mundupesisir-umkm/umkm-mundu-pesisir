@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { CATEGORIES_CONFIG, WHY_US_CONFIG } from "@/constants/features";
+import { useLanguage } from "@/lib/i18n";
 import { CategoryCard } from "./CategoryCard";
 import { WhyUsCard } from "./WhyUsCard";
 import { AdvancedPomfretFish } from "./AdvancedPomfretFish";
@@ -15,6 +15,8 @@ interface ProductHighlightsSectionProps {
 export const ProductHighlightsSection: React.FC<ProductHighlightsSectionProps> = ({
   className,
 }) => {
+  const { t } = useLanguage();
+
   return (
     <section
       id="produk"
@@ -47,19 +49,19 @@ export const ProductHighlightsSection: React.FC<ProductHighlightsSectionProps> =
           {/* Section Header - Compact Spacing */}
           <div className="text-center max-w-2xl mx-auto mb-5 sm:mb-6">
             <span className="block text-[11px] sm:text-xs font-bold tracking-widest text-[#8a6843] uppercase font-sans mb-1">
-              {CATEGORIES_CONFIG.badge}
+              {t.features.categoriesBadge}
             </span>
             <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-[#0a2642] tracking-tight font-sans">
-              {CATEGORIES_CONFIG.headline}
+              {t.features.categoriesHeadline}
             </h2>
             <p className="text-xs sm:text-sm text-[#5a6b7c] mt-1.5 leading-relaxed max-w-xl mx-auto font-sans">
-              {CATEGORIES_CONFIG.description}
+              {t.features.categoriesSubtitle}
             </p>
           </div>
 
           {/* Category Cards Grid */}
           <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6">
-            {CATEGORIES_CONFIG.categories.map((category) => (
+            {t.features.categories.map((category) => (
               <CategoryCard key={category.id} item={category} />
             ))}
           </div>
@@ -72,19 +74,19 @@ export const ProductHighlightsSection: React.FC<ProductHighlightsSectionProps> =
           {/* Section Header - Compact Spacing */}
           <div className="text-center max-w-2xl mx-auto mb-5 sm:mb-6">
             <span className="block text-[11px] sm:text-xs font-bold tracking-widest text-[#8a6843] uppercase font-sans mb-1">
-              {WHY_US_CONFIG.badge}
+              {t.features.badge}
             </span>
             <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-[#0a2642] tracking-tight font-sans">
-              {WHY_US_CONFIG.headline}
+              {t.features.title}
             </h2>
             <p className="text-xs sm:text-sm text-[#5a6b7c] mt-1.5 leading-relaxed max-w-xl mx-auto font-sans">
-              {WHY_US_CONFIG.description}
+              {t.features.subtitle}
             </p>
           </div>
 
           {/* Why Us Value Cards Grid */}
           <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6">
-            {WHY_US_CONFIG.features.map((feature) => (
+            {t.features.whyUs.map((feature) => (
               <WhyUsCard key={feature.id} item={feature} />
             ))}
           </div>
