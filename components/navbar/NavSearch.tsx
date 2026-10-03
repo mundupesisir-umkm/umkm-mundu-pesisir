@@ -222,7 +222,7 @@ export const NavSearch: React.FC<NavSearchProps> = ({
             "absolute top-full mt-2 bg-white/98 backdrop-blur-md border border-[#d8c7b4] rounded-2xl shadow-2xl overflow-hidden z-50 animate-in fade-in zoom-in-95 duration-150",
             isMobile
               ? "left-0 right-0 w-full"
-              : "right-0 w-[360px] sm:w-[420px] max-w-[92vw]"
+              : "right-0 w-90 sm:w-105 max-w-[92vw]"
           )}
         >
           {/* Header Bar */}
@@ -246,7 +246,7 @@ export const NavSearch: React.FC<NavSearchProps> = ({
 
           {/* Product Items List (Steam Style) */}
           {matchingProducts.length > 0 ? (
-            <div className="max-h-[320px] overflow-y-auto divide-y divide-[#f2e7db]/70">
+            <div className="max-h-80 overflow-y-auto divide-y divide-[#f2e7db]/70">
               {matchingProducts.map((product, idx) => {
                 const isSelected = idx === selectedIndex;
                 return (
