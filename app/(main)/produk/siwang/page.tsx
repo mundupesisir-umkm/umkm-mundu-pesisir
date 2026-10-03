@@ -8,24 +8,24 @@ const siteUrl =
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: "Siwang (Terasi Bawang) Asli Khas Mundu Pesisir Cirebon",
+  title: "Siwang & Sambal Cumi Khas Mundu Pesisir Cirebon (Ibu Magfiro)",
   description:
-    "Katalog lengkap Siwang (Terasi Bawang) renyah khas Desa Mundu Pesisir Cirebon. Tersedia varian Original Gurih, Pedas Nagih, Super Pedas, dan Bawang Spesial. Dibuat dari terasi udang rebon asli tanpa pengawet. Pesan via WhatsApp, kirim ke seluruh Indonesia.",
+    "Katalog resmi Siwang & Sambal Cumi khas Desa Mundu Pesisir Cirebon dari UMKM Ibu Magfiro. Tersedia Siwang Toples Kecil (15k), Sedang (28k), Besar (55k), dan Sambal Cumi Kecil (25k), Sedang (50k). Dibuat dari terasi rebon murni asli pesisir Cirebon tanpa pengawet. Pesan langsung via WhatsApp.",
   keywords: [
+    "siwang ibu magfiro",
+    "sambal cumi cirebon",
+    "sambal cumi mundu pesisir",
     "siwang cirebon",
     "terasi bawang cirebon",
-    "siwang original mundu pesisir",
-    "siwang pedas cirebon",
+    "siwang toples cirebon",
     "beli siwang online",
-    "terasi rebon asli",
-    "bawang goreng terasi cirebon",
-    "sambal siwang cirebon",
-    "oleh-oleh cirebon siwang",
+    "terasi rebon asli cirebon",
+    "oleh-oleh khas cirebon",
   ],
   openGraph: {
-    title: "Siwang Khas Mundu Pesisir - Terasi Bawang Renyah Asli Cirebon",
+    title: "Siwang & Sambal Cumi Ibu Magfiro - Khas Mundu Pesisir Cirebon",
     description:
-      "Siwang (Terasi Bawang) renyah asli dari Desa Mundu Pesisir Cirebon. Varian Original, Pedas, dan Spesial. Tanpa pengawet, kirim seluruh Indonesia.",
+      "Siwang renyah gurih dan Sambal Cumi pedas mantap asli buatan Ibu Magfiro dari Desa Mundu Pesisir Cirebon. Tersedia 5 varian ukuran toples.",
     url: `${siteUrl}/produk/siwang`,
     images: [{ url: "/og-image.jpg", width: 1200, height: 630 }],
   },
