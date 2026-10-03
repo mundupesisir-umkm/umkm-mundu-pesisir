@@ -8,30 +8,31 @@ const siteUrl =
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: "Katalog Produk - Siwang, Kerupuk Ikan & Seafood Khas Cirebon",
+  title: "Katalog Produk UMKM - Siwang, Beras Lokal, & Olahan Laut Mundu Pesisir Cirebon",
   description:
-    "Katalog lengkap produk UMKM Desa Mundu Pesisir: Siwang (Terasi Bawang) Original & Pedas, Kerupuk Ikan Payur Mekar, Terasi Rebon Murni, dan aneka olahan laut segar. Harga terjangkau, tanpa pengawet, kirim seluruh Indonesia via WhatsApp.",
+    "Katalog lengkap produk unggulan UMKM Desa Mundu Pesisir Cirebon: Siwang & Sambal Cumi Ibu Magfiro, Beras Berkualitas panen lokal Ibu Santi (IR 64, Pandan Wangi, Rojolele), serta Bandeng Presto, Sarden & Pindang Biles Siti Maemunah. Pesan langsung ke pengrajin via WhatsApp.",
   keywords: [
-    "katalog produk siwang cirebon",
-    "beli terasi bawang online",
-    "kerupuk ikan payur mekar",
-    "terasi rebon cirebon",
-    "jual produk umkm cirebon",
-    "olahan ikan khas cirebon",
-    "seafood kering cirebon",
-    "produk pesisir halal",
+    "katalog produk umkm mundu pesisir",
+    "siwang sambal cumi ibu magfiro",
+    "beras lokal ibu santi cirebon",
+    "bandeng presto siti maemunah",
+    "ikan sarden pindang biles cirebon",
+    "beli terasi bawang cirebon online",
+    "beras murah cirebon",
+    "produk umkm cirebon",
+    "pesan wa pengrajin mundu",
   ],
   openGraph: {
-    title: "Katalog Produk UMKM Mundu Pesisir - Siwang & Seafood Khas Cirebon",
+    title: "Katalog Produk UMKM Mundu Pesisir - Siwang, Beras & Olahan Laut Asli Cirebon",
     description:
-      "Jelajahi seluruh produk olahan khas nelayan Desa Mundu Pesisir: Siwang renyah, Kerupuk Payur gurih, dan aneka olahan laut tanpa pengawet.",
+      "Jelajahi aneka produk unggulan UMKM asli Desa Mundu Pesisir Cirebon: Siwang & Sambal Cumi, Beras Panen Lokal, dan Olahan Ikan Laut segar. Pesan langsung via WhatsApp.",
     url: `${siteUrl}/produk`,
     images: [
       {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Katalog Produk UMKM Mundu Pesisir - Siwang & Olahan Laut Cirebon",
+        alt: "Katalog Produk UMKM Mundu Pesisir Cirebon",
       },
     ],
   },
