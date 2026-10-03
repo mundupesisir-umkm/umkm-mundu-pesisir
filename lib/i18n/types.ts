@@ -127,6 +127,7 @@ export interface TranslationDictionary {
     allCategory: string;
     siwangCategory: string;
     seafoodCategory: string;
+    berasCategory: string;
     crackersCategory: string;
     sortDefault: string;
     sortPriceAsc: string;

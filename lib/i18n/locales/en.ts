@@ -119,6 +119,7 @@ export const en: TranslationDictionary = {
     allCategory: "All",
     siwangCategory: "Siwang (Shallot & Shrimp)",
     seafoodCategory: "Seafood Dishes",
+    berasCategory: "Rice & Farm Harvest",
     crackersCategory: "Crackers & Snacks",
     sortDefault: "Recommended Order",
     sortPriceAsc: "Price: Lowest First",
@@ -369,15 +370,48 @@ export const en: TranslationDictionary = {
       {
         id: "whatsapp",
         icon: "WhatsApp",
-        title: "WhatsApp Order & Consultation",
+        title: "Central UMKM Village Admin",
         subtitle:
-          "Fastest response for stock availability, special offers, and tracking",
+          "Fastest response for central stock checks, shipping, and village inquiries",
         primaryValue: "+62 812-1414-5254",
-        actionText: "Chat on WhatsApp Now",
+        actionText: "Chat Admin WhatsApp",
         actionHref:
           "https://wa.me/6281214145254?text=Hello%20Mundu%20Pesisir%20Admin,%20I%20would%20like%20to%20inquire%20about%20products%20and%20orders.",
         isPrimary: true,
-        statusBadge: "🟢 Online (08:00 AM – 08:00 PM WIB)",
+        statusBadge: "🟢 Village Admin",
+      },
+      {
+        id: "wa-ibu-magfiro",
+        icon: "WhatsApp",
+        title: "UMKM Ibu Magfiro (Siwang & Squid Chili)",
+        subtitle: "Direct orders for Siwang jars (small, medium, large) & Squid sambal",
+        primaryValue: "+62 821-1988-2446",
+        actionText: "Chat Ibu Magfiro",
+        actionHref:
+          "https://wa.me/6282119882446?text=Hello%20Ibu%20Magfiro,%20I%20would%20like%20to%20order%20Siwang%20or%20Sambal%20Cumi.",
+        statusBadge: "Direct Artisan",
+      },
+      {
+        id: "wa-ibu-santi",
+        icon: "WhatsApp",
+        title: "UMKM Ibu Santi (Quality Rice Harvest)",
+        subtitle: "Order local aromatic rice per kg & 25kg sacks (3 grades available)",
+        primaryValue: "+62 821-1539-7254",
+        actionText: "Chat Ibu Santi",
+        actionHref:
+          "https://wa.me/6282115397254?text=Hello%20Ibu%20Santi,%20I%20would%20like%20to%20order%20rice.",
+        statusBadge: "Rice Supplier",
+      },
+      {
+        id: "wa-siti-maemunah",
+        icon: "WhatsApp",
+        title: "UMKM Siti Maemunah (Fresh Seafood & Fish)",
+        subtitle: "Order soft-bone milkfish presto, fresh sardines, & pindang biles",
+        primaryValue: "+62 838-2339-6163",
+        actionText: "Chat Siti Maemunah",
+        actionHref:
+          "https://wa.me/6283823396163?text=Hello%20Ibu%20Siti%20Maemunah,%20I%20would%20like%20to%20order%20processed%20fish.",
+        statusBadge: "Fish Processor",
       },
       {
         id: "email",

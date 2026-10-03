@@ -53,6 +53,7 @@ export function translateProductDetails<T extends ProductDetailsSpec | undefined
 
 export interface OrderMessageParams {
   productName: string;
+  variantName?: string;
   quantity: number;
   totalPriceFormatted: string;
   language: Language;
@@ -63,12 +64,15 @@ export interface OrderMessageParams {
  */
 export function formatOrderWhatsAppMessage({
   productName,
+  variantName,
   quantity,
   totalPriceFormatted,
   language,
 }: OrderMessageParams): string {
+  const itemTitle = variantName ? `*${productName}*\nVarian: *${variantName}*` : `*${productName}*`;
+
   if (language === "en") {
-    return `Hello Mundu Pesisir Artisan, I am interested and would like to order:\n\n*${productName}*\nQuantity: ${quantity} package(s)\nEstimated Total: ${totalPriceFormatted}\n\nPlease advise on current stock availability and shipping costs to my address. Thank you!`;
+    return `Hello Mundu Pesisir Artisan, I am interested and would like to order:\n\n${itemTitle}\nQuantity: ${quantity} package(s)\nEstimated Total: ${totalPriceFormatted}\n\nPlease advise on current stock availability and shipping costs to my address. Thank you!`;
   }
-  return `Halo Pengrajin UMKM Mundu Pesisir, saya tertarik dan ingin memesan produk:\n\n*${productName}*\nJumlah: ${quantity} kemasan\nEstimasi Total: ${totalPriceFormatted}\n\nMohon informasi ketersediaan stok terbaru dan rincian ongkos kirim ke alamat saya. Terima kasih!`;
+  return `Halo Pengrajin UMKM Mundu Pesisir, saya tertarik dan ingin memesan produk:\n\n${itemTitle}\nJumlah: ${quantity} kemasan\nEstimasi Total: ${totalPriceFormatted}\n\nMohon informasi ketersediaan stok terbaru dan rincian ongkos kirim ke alamat saya. Terima kasih!`;
 }
