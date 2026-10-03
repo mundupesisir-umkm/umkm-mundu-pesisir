@@ -29,6 +29,7 @@ export const ProductCatalogSection: React.FC<ProductCatalogSectionProps> = ({
       { id: "all", label: t.catalog.allCategory },
       { id: "siwang", label: t.catalog.siwangCategory },
       { id: "seafood", label: t.catalog.seafoodCategory },
+      { id: "beras", label: t.catalog.berasCategory },
     ],
     [t]
   );
