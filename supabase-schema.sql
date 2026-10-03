@@ -23,11 +23,13 @@ CREATE TABLE IF NOT EXISTS public.products (
   composition TEXT,
   shelf_life TEXT,
   packaging TEXT,
+  variants JSONB DEFAULT '[]'::jsonb,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 
--- Tambahkan kolom phone jika tabel sudah dibuat sebelumnya
+-- Tambahkan kolom phone & variants jika tabel sudah dibuat sebelumnya
 ALTER TABLE public.products ADD COLUMN IF NOT EXISTS phone TEXT;
+ALTER TABLE public.products ADD COLUMN IF NOT EXISTS variants JSONB DEFAULT '[]'::jsonb;
 
 -- 2. Buat Tabel Testimoni Pembeli
 CREATE TABLE IF NOT EXISTS public.testimonials (
