@@ -52,14 +52,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const imageUrl = p.image?.startsWith("http") ? p.image : `${siteUrl}${p.image}`;
   const productUrl = `${siteUrl}/produk/${p.id}`;
 
+  const variantKeywords = p.variants?.map((v) => v.name.toLowerCase()) || [];
+
   return {
     title,
     description,
     keywords: [
       p.name.toLowerCase(),
-      "siwang cirebon",
-      "terasi bawang cirebon",
-      "produk umkm mundu pesisir",
+      ...variantKeywords,
+      "umkm mundu pesisir",
+      "produk umkm cirebon",
       p.categoryLabel.toLowerCase(),
       "beli online",
       "pesan whatsapp",
@@ -110,7 +112,55 @@ export default async function ProductDetailPage({ params }: Props) {
 
   const imageUrl = product?.image?.startsWith("http")
     ? product.image
-    : `${siteUrl}${product?.image || "/siwang-pouch.jpg"}`;
+    : `${siteUrl}${product?.image || "/products/placeholder.svg"}`;
+
+  const validUntil = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
+    .toISOString()
+    .split("T")[0];
+
+  const sellerPhone = product?.phone || "+62-812-1414-5254";
+
+  // Build JSON-LD Offers (AggregateOffer if multiple variants, Offer otherwise)
+  const offersSchema =
+    product && product.variants && product.variants.length > 1
+      ? {
+          "@type": "AggregateOffer",
+          priceCurrency: "IDR",
+          lowPrice: Math.min(...product.variants.map((v) => Number(v.price))),
+          highPrice: Math.max(...product.variants.map((v) => Number(v.price))),
+          offerCount: product.variants.length,
+          priceValidUntil: validUntil,
+          availability: "https://schema.org/InStock",
+          url: `${siteUrl}/produk/${product.id}`,
+          seller: {
+            "@type": "Organization",
+            name: "UMKM Desa Mundu Pesisir",
+            telephone: sellerPhone,
+          },
+          offers: product.variants.map((v) => ({
+            "@type": "Offer",
+            name: v.name,
+            priceCurrency: "IDR",
+            price: v.price,
+            availability: "https://schema.org/InStock",
+            url: `${siteUrl}/produk/${product.id}`,
+          })),
+        }
+      : product
+      ? {
+          "@type": "Offer",
+          priceCurrency: "IDR",
+          price: product.price,
+          priceValidUntil: validUntil,
+          availability: "https://schema.org/InStock",
+          url: `${siteUrl}/produk/${product.id}`,
+          seller: {
+            "@type": "Organization",
+            name: "UMKM Desa Mundu Pesisir",
+            telephone: sellerPhone,
+          },
+        }
+      : undefined;
 
   const productJsonLd = product
     ? {
@@ -137,49 +187,7 @@ export default async function ProductDetailPage({ params }: Props) {
           },
         },
         category: product.categoryLabel,
-        offers: {
-          "@type": "Offer",
-          priceCurrency: "IDR",
-          price: product.price,
-          priceValidUntil: new Date(
-            Date.now() + 30 * 24 * 60 * 60 * 1000
-          )
-            .toISOString()
-            .split("T")[0],
-          availability: "https://schema.org/InStock",
-          url: `${siteUrl}/produk/${product.id}`,
-          seller: {
-            "@type": "Organization",
-            name: "UMKM Desa Mundu Pesisir",
-            telephone: "+62-812-1414-5254",
-          },
-          shippingDetails: {
-            "@type": "OfferShippingDetails",
-            shippingRate: {
-              "@type": "MonetaryAmount",
-              value: 0,
-              currency: "IDR",
-            },
-            shippingDestination: {
-              "@type": "DefinedRegion",
-              addressCountry: "ID",
-            },
-            deliveryTime: {
-              "@type": "ShippingDeliveryTime",
-              businessDays: {
-                "@type": "OpeningHoursSpecification",
-                dayOfWeek: [
-                  "Monday",
-                  "Tuesday",
-                  "Wednesday",
-                  "Thursday",
-                  "Friday",
-                ],
-              },
-              cutoffTime: "14:00",
-            },
-          },
-        },
+        offers: offersSchema,
         ...(product.details && {
           additionalProperty: [
             product.details.composition && {
