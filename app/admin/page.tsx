@@ -19,6 +19,7 @@ import {
   AdminDatabaseAlert,
   AdminPasswordModal,
   AdminSqlSchemaModal,
+  AdminGuideModal,
   ProductAdminTable,
   ProductFormModal,
   ProductFormData,
@@ -27,16 +28,17 @@ import {
 
 const INITIAL_FORM_DATA: ProductFormData = {
   name: "",
-  categoryLabel: "SIWANG (TERASI BAWANG)",
+  categoryLabel: "SIWANG & SAMBAL",
   categoryKey: "siwang",
-  price: 25000,
-  phone: "081214145254",
-  image: "/siwang-pouch.jpg",
+  price: 15000,
+  phone: "082119882446",
+  image: "/products/placeholder.svg",
   badge: "",
   description: "",
   composition: "Bawang merah Cirebon, terasi udang rebon asli Mundu Pesisir, rempah alami.",
   shelfLife: "3 - 4 Bulan di suhu ruang.",
-  packaging: "Standing pouch zipper tebal kedap udara.",
+  packaging: "Toples higienis / standing pouch kedap udara.",
+  variants: [],
 };
 
 export default function AdminPage() {
@@ -45,6 +47,9 @@ export default function AdminPage() {
 
   // Change Password Modal State
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState<boolean>(false);
+
+  // Guide Modal State
+  const [isGuideModalOpen, setIsGuideModalOpen] = useState<boolean>(false);
 
   // Active Tab
   const [adminTab, setAdminTab] = useState<"products" | "testimonials">("products");
@@ -140,15 +145,16 @@ export default function AdminPage() {
     setFormData({
       name: product.name,
       categoryLabel: product.categoryLabel,
-      categoryKey: (product.categoryKey as "siwang" | "seafood") || "siwang",
+      categoryKey: product.categoryKey || "siwang",
       price: product.price,
-      phone: product.phone || "081214145254",
-      image: product.image,
+      phone: product.phone || "082119882446",
+      image: product.image || "/products/placeholder.svg",
       badge: product.badge || "",
       description: product.description,
       composition: product.details?.composition || "",
       shelfLife: product.details?.shelfLife || "",
       packaging: product.details?.packaging || "",
+      variants: product.variants ? [...product.variants] : [],
     });
     setIsModalOpen(true);
   };
@@ -162,16 +168,30 @@ export default function AdminPage() {
 
     setActionLoading(true);
     try {
+      // Calculate formatted price range or single price
+      let computedPriceFormatted = formatRupiah(Number(formData.price));
+      if (formData.variants && formData.variants.length > 0) {
+        const prices = formData.variants.map((v) => Number(v.price)).filter((p) => p > 0);
+        if (prices.length > 1) {
+          const minP = Math.min(...prices);
+          const maxP = Math.max(...prices);
+          computedPriceFormatted = minP === maxP ? formatRupiah(minP) : `${formatRupiah(minP)} - ${formatRupiah(maxP)}`;
+        } else if (prices.length === 1) {
+          computedPriceFormatted = formatRupiah(prices[0]);
+        }
+      }
+
       const productPayload = {
         name: formData.name.trim(),
         categoryLabel: formData.categoryLabel.trim(),
         categoryKey: formData.categoryKey,
         price: Number(formData.price),
-        priceFormatted: formatRupiah(Number(formData.price)),
+        priceFormatted: computedPriceFormatted,
         phone: formData.phone.trim() || undefined,
-        image: formData.image.trim() || "/siwang-pouch.jpg",
+        image: formData.image.trim() || "/products/placeholder.svg",
         badge: formData.badge.trim() || undefined,
         description: formData.description.trim(),
+        variants: formData.variants,
         details: {
           composition: formData.composition.trim(),
           shelfLife: formData.shelfLife.trim(),
@@ -248,10 +268,13 @@ export default function AdminPage() {
   // Filtered Products
   const filteredProducts = useMemo(() => {
     return products.filter((p) => {
+      const query = searchQuery.toLowerCase();
       const matchesSearch =
-        p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        p.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        p.categoryLabel.toLowerCase().includes(searchQuery.toLowerCase());
+        p.name.toLowerCase().includes(query) ||
+        p.description.toLowerCase().includes(query) ||
+        p.categoryLabel.toLowerCase().includes(query) ||
+        (p.variants && p.variants.some((v) => v.name.toLowerCase().includes(query)));
+
       const matchesCat =
         categoryFilter === "all" || p.categoryKey === categoryFilter;
       return matchesSearch && matchesCat;
@@ -263,8 +286,12 @@ export default function AdminPage() {
     const total = products.length;
     const siwang = products.filter((p) => p.categoryKey === "siwang").length;
     const seafood = products.filter((p) => p.categoryKey === "seafood").length;
-    const withBadge = products.filter((p) => Boolean(p.badge)).length;
-    return { total, siwang, seafood, withBadge };
+    const beras = products.filter((p) => p.categoryKey === "beras").length;
+    const variantsCount = products.reduce(
+      (acc, p) => acc + (p.variants && p.variants.length > 0 ? p.variants.length : 1),
+      0
+    );
+    return { total, siwang, seafood, beras, variantsCount };
   }, [products]);
 
   // Screen 1: Unauthenticated
@@ -288,6 +315,7 @@ export default function AdminPage() {
         adminTab={adminTab}
         setAdminTab={setAdminTab}
         productCount={products.length}
+        onOpenGuideModal={() => setIsGuideModalOpen(true)}
         onOpenPasswordModal={() => setIsPasswordModalOpen(true)}
         onLogout={handleLogout}
       />
@@ -323,6 +351,7 @@ export default function AdminPage() {
             setDeleteConfirmId={setDeleteConfirmId}
             onDeleteProduct={handleDeleteProduct}
             actionLoading={actionLoading}
+            onOpenGuideModal={() => setIsGuideModalOpen(true)}
           />
         )}
 
@@ -345,6 +374,13 @@ export default function AdminPage() {
         actionLoading={actionLoading}
         onImageFileChange={handleImageFileChange}
         onSubmit={handleSubmitProduct}
+        onOpenGuideModal={() => setIsGuideModalOpen(true)}
+      />
+
+      {/* Modal: Guide for Filling Data */}
+      <AdminGuideModal
+        isOpen={isGuideModalOpen}
+        onClose={() => setIsGuideModalOpen(false)}
       />
 
       {/* Modal: Change Admin Password */}
