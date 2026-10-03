@@ -6,20 +6,23 @@ import {
   Package,
   Layers,
   Database,
-  Tag,
   Plus,
   Search,
   RefreshCw,
   Edit2,
   Trash2,
+  BookOpen,
+  Wheat,
+  Fish,
 } from "lucide-react";
 import { ProductItem } from "@/constants/products";
 
-interface ProductStats {
+export interface ProductStats {
   total: number;
   siwang: number;
   seafood: number;
-  withBadge: number;
+  beras: number;
+  variantsCount: number;
 }
 
 interface ProductAdminTableProps {
@@ -39,6 +42,7 @@ interface ProductAdminTableProps {
   setDeleteConfirmId: (id: string | null) => void;
   onDeleteProduct: (id: string) => void;
   actionLoading: boolean;
+  onOpenGuideModal?: () => void;
 }
 
 export const ProductAdminTable: React.FC<ProductAdminTableProps> = ({
@@ -57,63 +61,78 @@ export const ProductAdminTable: React.FC<ProductAdminTableProps> = ({
   setDeleteConfirmId,
   onDeleteProduct,
   actionLoading,
+  onOpenGuideModal,
 }) => {
   return (
     <div className="space-y-6">
       {/* STATS OVERVIEW CARDS */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs flex items-center gap-4">
-          <div className="w-12 h-12 rounded-xl bg-[#008276]/10 text-[#008276] flex items-center justify-center shrink-0">
-            <Package className="w-6 h-6" />
+      <div className="grid grid-cols-2 lg:grid-cols-5 gap-3.5">
+        <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/80 shadow-xs flex items-center gap-3.5">
+          <div className="w-11 h-11 rounded-xl bg-[#008276]/10 text-[#008276] flex items-center justify-center shrink-0">
+            <Package className="w-5 h-5" />
           </div>
           <div>
-            <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">
-              Total Produk
+            <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-wider block">
+              Profil UMKM
             </span>
-            <span className="text-2xl font-extrabold text-[#0a2642]">
+            <span className="text-xl sm:text-2xl font-extrabold text-[#0a2642]">
               {stats.total}
             </span>
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs flex items-center gap-4">
-          <div className="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-600 flex items-center justify-center shrink-0">
-            <Layers className="w-6 h-6" />
+        <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/80 shadow-xs flex items-center gap-3.5">
+          <div className="w-11 h-11 rounded-xl bg-purple-500/10 text-purple-600 flex items-center justify-center shrink-0">
+            <Layers className="w-5 h-5" />
           </div>
           <div>
-            <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">
-              Varian Siwang
+            <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-wider block">
+              Total Varian
             </span>
-            <span className="text-2xl font-extrabold text-[#0a2642]">
+            <span className="text-xl sm:text-2xl font-extrabold text-purple-700">
+              {stats.variantsCount}
+            </span>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/80 shadow-xs flex items-center gap-3.5">
+          <div className="w-11 h-11 rounded-xl bg-amber-500/10 text-amber-600 flex items-center justify-center shrink-0">
+            <Package className="w-5 h-5" />
+          </div>
+          <div>
+            <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-wider block">
+              Siwang & Sambal
+            </span>
+            <span className="text-xl sm:text-2xl font-extrabold text-[#0a2642]">
               {stats.siwang}
             </span>
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs flex items-center gap-4">
-          <div className="w-12 h-12 rounded-xl bg-blue-500/10 text-blue-600 flex items-center justify-center shrink-0">
-            <Database className="w-6 h-6" />
+        <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/80 shadow-xs flex items-center gap-3.5">
+          <div className="w-11 h-11 rounded-xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center shrink-0">
+            <Wheat className="w-5 h-5" />
           </div>
           <div>
-            <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">
-              Hasil Seafood
+            <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-wider block">
+              Beras & Tani
             </span>
-            <span className="text-2xl font-extrabold text-[#0a2642]">
-              {stats.seafood}
+            <span className="text-xl sm:text-2xl font-extrabold text-[#0a2642]">
+              {stats.beras}
             </span>
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs flex items-center gap-4">
-          <div className="w-12 h-12 rounded-xl bg-rose-500/10 text-rose-600 flex items-center justify-center shrink-0">
-            <Tag className="w-6 h-6" />
+        <div className="col-span-2 lg:col-span-1 bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/80 shadow-xs flex items-center gap-3.5">
+          <div className="w-11 h-11 rounded-xl bg-blue-500/10 text-blue-600 flex items-center justify-center shrink-0">
+            <Fish className="w-5 h-5" />
           </div>
           <div>
-            <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">
-              Promo / Badge
+            <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-wider block">
+              Seafood & Ikan
             </span>
-            <span className="text-2xl font-extrabold text-[#0a2642]">
-              {stats.withBadge}
+            <span className="text-xl sm:text-2xl font-extrabold text-[#0a2642]">
+              {stats.seafood}
             </span>
           </div>
         </div>
@@ -127,14 +146,25 @@ export const ProductAdminTable: React.FC<ProductAdminTableProps> = ({
         <div className="p-5 sm:p-6 border-b border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <h3 className="text-lg sm:text-xl font-extrabold text-[#0a2642] font-sans">
-              Katalog Produk Terdaftar
+              Katalog Produk UMKM Terdaftar
             </h3>
             <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
-              Kelola data produk yang tampil di website publik dan terhubung langsung ke Supabase
+              Setiap UMKM memiliki 1 profil utama dengan rincian sub-produk/varian yang terhubung langsung ke WhatsApp pengrajin
             </p>
           </div>
 
           <div className="flex flex-wrap items-center gap-2.5">
+            {onOpenGuideModal && (
+              <button
+                onClick={onOpenGuideModal}
+                className="px-4 py-2.5 rounded-xl border border-teal-200 bg-teal-50 hover:bg-teal-100 text-[#006e64] text-xs sm:text-sm font-bold flex items-center gap-2 transition-all cursor-pointer"
+                title="Buka panduan pengisian lengkap"
+              >
+                <BookOpen className="w-4 h-4 text-[#008276]" />
+                <span>Panduan Mengisi</span>
+              </button>
+            )}
+
             <button
               onClick={onOpenCreateModal}
               disabled={tableExists === false}
@@ -154,7 +184,7 @@ export const ProductAdminTable: React.FC<ProductAdminTableProps> = ({
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Cari nama produk, kategori, atau deskripsi..."
+              placeholder="Cari nama UMKM, produk, atau varian..."
               className="w-full pl-9 pr-4 py-2.5 rounded-xl bg-white border border-slate-200 text-xs sm:text-sm focus:outline-hidden focus:ring-2 focus:ring-[#008276]"
             />
           </div>
@@ -166,8 +196,9 @@ export const ProductAdminTable: React.FC<ProductAdminTableProps> = ({
               className="px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs sm:text-sm font-medium text-slate-700 focus:outline-hidden focus:ring-2 focus:ring-[#008276] w-full sm:w-auto"
             >
               <option value="all">Semua Kategori</option>
-              <option value="siwang">Siwang (Terasi Bawang)</option>
-              <option value="seafood">Seafood & Tangkapan Nelayan</option>
+              <option value="siwang">Siwang & Sambal</option>
+              <option value="beras">Beras & Pertanian</option>
+              <option value="seafood">Seafood & Olahan Ikan</option>
             </select>
 
             <button
@@ -211,10 +242,10 @@ export const ProductAdminTable: React.FC<ProductAdminTableProps> = ({
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="border-b border-slate-200 bg-slate-50/50 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
-                  <th className="py-3.5 px-4 sm:px-6">Produk</th>
+                  <th className="py-3.5 px-4 sm:px-6">Produk & Pengrajin</th>
                   <th className="py-3.5 px-4">Kategori</th>
-                  <th className="py-3.5 px-4">Harga</th>
-                  <th className="py-3.5 px-4">Badge / Promo</th>
+                  <th className="py-3.5 px-4">Kisaran Harga</th>
+                  <th className="py-3.5 px-4">Sub-Produk / Varian</th>
                   <th className="py-3.5 px-4">WA Pengrajin</th>
                   <th className="py-3.5 px-4 sm:px-6 text-right">Aksi</th>
                 </tr>
@@ -230,9 +261,10 @@ export const ProductAdminTable: React.FC<ProductAdminTableProps> = ({
                       <div className="flex items-center gap-3">
                         <div className="relative w-12 h-12 rounded-xl overflow-hidden bg-slate-100 border border-slate-200 shrink-0">
                           <Image
-                            src={product.image || "/siwang-pouch.jpg"}
+                            src={product.image || "/products/placeholder.svg"}
                             alt={product.name}
                             fill
+                            unoptimized={product.image?.endsWith(".svg")}
                             className="object-cover"
                           />
                         </div>
@@ -261,21 +293,27 @@ export const ProductAdminTable: React.FC<ProductAdminTableProps> = ({
                       </span>
                     </td>
 
-                    {/* Badge */}
-                    <td className="py-3.5 px-4 whitespace-nowrap">
-                      {product.badge ? (
-                        <span className="inline-block px-2.5 py-0.5 rounded-full bg-amber-50 text-amber-700 border border-amber-200 text-[11px] font-bold">
-                          {product.badge}
-                        </span>
+                    {/* Sub-Produk / Variants */}
+                    <td className="py-3.5 px-4">
+                      {product.variants && product.variants.length > 0 ? (
+                        <div className="space-y-1">
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-purple-50 text-purple-700 border border-purple-200 text-[11px] font-bold">
+                            <Layers className="w-3 h-3" />
+                            <span>{product.variants.length} Varian</span>
+                          </span>
+                          <p className="text-[10px] text-slate-400 line-clamp-1 max-w-50">
+                            {product.variants.map((v) => v.name).join(", ")}
+                          </p>
+                        </div>
                       ) : (
-                        <span className="text-slate-400 text-xs">-</span>
+                        <span className="text-slate-400 text-xs italic">1 Varian Standar</span>
                       )}
                     </td>
 
                     {/* Phone / WA Pengrajin */}
                     <td className="py-3.5 px-4 whitespace-nowrap">
                       <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-800 border border-emerald-200 font-mono text-[11px]">
-                        {product.phone || "6281214145254"}
+                        {product.phone || "-"}
                       </span>
                     </td>
 
@@ -285,7 +323,7 @@ export const ProductAdminTable: React.FC<ProductAdminTableProps> = ({
                         <button
                           onClick={() => onOpenEditModal(product)}
                           className="p-2 rounded-lg bg-slate-100 hover:bg-[#008276] hover:text-white text-slate-600 transition-colors cursor-pointer"
-                          title="Edit Produk"
+                          title="Edit Produk & Varian"
                         >
                           <Edit2 className="w-4 h-4" />
                         </button>
@@ -317,7 +355,7 @@ export const ProductAdminTable: React.FC<ProductAdminTableProps> = ({
               Hapus Produk Ini?
             </h3>
             <p className="text-xs sm:text-sm text-slate-500 mt-2">
-              Produk yang dihapus tidak dapat dipulihkan dari Supabase.
+              Produk beserta seluruh variannya yang dihapus tidak dapat dipulihkan dari Supabase.
             </p>
             <div className="mt-6 flex items-center justify-center gap-3">
               <button
