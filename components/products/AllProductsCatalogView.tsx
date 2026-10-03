@@ -63,6 +63,7 @@ export const AllProductsCatalogView: React.FC<AllProductsCatalogViewProps> = ({
     { id: "all", label: t.catalog.allCategory },
     { id: "siwang", label: t.catalog.siwangCategory },
     { id: "seafood", label: t.catalog.seafoodCategory },
+    { id: "beras", label: t.catalog.berasCategory },
   ], [t]);
 
   // Filter & Sort Logic
