@@ -2,13 +2,14 @@
 
 import React from "react";
 import Link from "next/link";
-import { KeyRound, Eye, LogOut, Package, MessageSquareHeart } from "lucide-react";
+import { KeyRound, Eye, LogOut, Package, MessageSquareHeart, BookOpen } from "lucide-react";
 import { cn } from "@/lib";
 
 interface AdminHeaderProps {
   adminTab: "products" | "testimonials";
   setAdminTab: (tab: "products" | "testimonials") => void;
   productCount: number;
+  onOpenGuideModal: () => void;
   onOpenPasswordModal: () => void;
   onLogout: () => void;
 }
@@ -17,6 +18,7 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({
   adminTab,
   setAdminTab,
   productCount,
+  onOpenGuideModal,
   onOpenPasswordModal,
   onLogout,
 }) => {
@@ -37,6 +39,15 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({
           </div>
 
           <div className="flex items-center gap-2 sm:gap-3">
+            <button
+              onClick={onOpenGuideModal}
+              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-teal-50 hover:bg-teal-100 text-[#006e64] border border-teal-200 text-xs font-bold transition-all cursor-pointer shadow-2xs"
+              title="Panduan Lengkap Pengisian Data UMKM"
+            >
+              <BookOpen className="w-3.5 h-3.5 text-[#008276]" />
+              <span>Panduan Mengisi</span>
+            </button>
+
             <button
               onClick={onOpenPasswordModal}
               className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold transition-colors cursor-pointer"
