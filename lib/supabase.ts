@@ -1,5 +1,5 @@
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
-import { ProductItem, PRODUCT_CATALOG_CONFIG } from "@/constants/products";
+import { ProductItem, PRODUCT_CATALOG_CONFIG, ProductVariant } from "@/constants/products";
 import { TestimonialItem, TESTIMONIALS_CONFIG } from "@/constants/testimonials";
 
 const supabaseUrl =
@@ -44,6 +44,7 @@ export interface ProductRow {
   composition?: string | null;
   shelf_life?: string | null;
   packaging?: string | null;
+  variants?: ProductVariant[] | string | null;
   created_at?: string;
 }
 
@@ -58,23 +59,50 @@ export const formatRupiah = (val: number): string => {
     .replace("Rp", "Rp ");
 };
 
-export const mapRowToProduct = (row: ProductRow): ProductItem => ({
-  id: row.id,
-  name: row.name,
-  categoryLabel: row.category_label,
-  categoryKey: (row.category_key as "siwang" | "seafood") || "siwang",
-  description: row.description,
-  price: Number(row.price),
-  priceFormatted: row.price_formatted || formatRupiah(Number(row.price)),
-  phone: row.phone || undefined,
-  image: row.image,
-  badge: row.badge || undefined,
-  details: {
-    composition: row.composition || "-",
-    shelfLife: row.shelf_life || "-",
-    packaging: row.packaging || "-",
-  },
-});
+export const mapRowToProduct = (row: ProductRow): ProductItem => {
+  let parsedVariants: ProductVariant[] | undefined;
+  if (Array.isArray(row.variants) && row.variants.length > 0) {
+    parsedVariants = row.variants;
+  } else if (typeof row.variants === "string" && row.variants.trim() !== "") {
+    try {
+      parsedVariants = JSON.parse(row.variants);
+    } catch {
+      parsedVariants = undefined;
+    }
+  }
+
+  // Fallback check from static catalog config if not present in DB row
+  if (!parsedVariants || parsedVariants.length === 0) {
+    const fallback = PRODUCT_CATALOG_CONFIG.products.find(
+      (p) =>
+        p.id === row.id ||
+        p.name.toLowerCase().includes(row.name.toLowerCase()) ||
+        row.name.toLowerCase().includes(p.name.toLowerCase())
+    );
+    if (fallback?.variants) {
+      parsedVariants = fallback.variants;
+    }
+  }
+
+  return {
+    id: row.id,
+    name: row.name,
+    categoryLabel: row.category_label,
+    categoryKey: (row.category_key as "siwang" | "seafood" | "beras") || "siwang",
+    description: row.description,
+    price: Number(row.price),
+    priceFormatted: row.price_formatted || formatRupiah(Number(row.price)),
+    phone: row.phone || undefined,
+    image: row.image || "/products/placeholder.svg",
+    badge: row.badge || undefined,
+    variants: parsedVariants,
+    details: {
+      composition: row.composition || "-",
+      shelfLife: row.shelf_life || "-",
+      packaging: row.packaging || "-",
+    },
+  };
+};
 
 export const mapProductToRow = (
   product: Partial<ProductItem> & { name: string; price: number }
@@ -87,12 +115,16 @@ export const mapProductToRow = (
     price: product.price,
     price_formatted: product.priceFormatted || formatRupiah(product.price),
     phone: product.phone || null,
-    image: product.image || "/siwang-pouch.jpg",
+    image: product.image || "/products/placeholder.svg",
     badge: product.badge || null,
     composition: product.details?.composition || null,
     shelf_life: product.details?.shelfLife || null,
     packaging: product.details?.packaging || null,
   };
+
+  if (product.variants) {
+    row.variants = product.variants;
+  }
 
   if (product.id) {
     row.id = product.id;
@@ -279,6 +311,7 @@ export async function updateProduct(
     if (product.phone !== undefined) updateData.phone = product.phone || null;
     if (product.image !== undefined) updateData.image = product.image;
     if (product.badge !== undefined) updateData.badge = product.badge || null;
+    if (product.variants !== undefined) updateData.variants = product.variants;
     if (product.details) {
       if (product.details.composition !== undefined) updateData.composition = product.details.composition;
       if (product.details.shelfLife !== undefined) updateData.shelf_life = product.details.shelfLife;
@@ -658,11 +691,13 @@ CREATE TABLE IF NOT EXISTS public.products (
   composition TEXT,
   shelf_life TEXT,
   packaging TEXT,
+  variants JSONB DEFAULT '[]'::jsonb,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 
--- Tambahkan kolom phone jika tabel sudah dibuat sebelumnya
+-- Tambahkan kolom phone & variants jika tabel sudah dibuat sebelumnya
 ALTER TABLE public.products ADD COLUMN IF NOT EXISTS phone TEXT;
+ALTER TABLE public.products ADD COLUMN IF NOT EXISTS variants JSONB DEFAULT '[]'::jsonb;
 
 -- 2. Buat tabel testimoni pembeli
 CREATE TABLE IF NOT EXISTS public.testimonials (
