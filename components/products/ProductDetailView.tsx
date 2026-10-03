@@ -33,6 +33,21 @@ export const ProductDetailView: React.FC<ProductDetailViewProps> = ({
   );
   const [isLoading, setIsLoading] = useState<boolean>(!initialProduct);
   const [quantity, setQuantity] = useState<number>(1);
+  const [selectedVariant, setSelectedVariant] = useState<import("@/constants/products").ProductVariant | null>(
+    initialProduct?.variants && initialProduct.variants.length > 0 ? initialProduct.variants[0] : null
+  );
+
+  // Sync selected variant when product changes
+  useEffect(() => {
+    if (product?.variants && product.variants.length > 0) {
+      setSelectedVariant((prev) => {
+        if (prev && product.variants?.some((v) => v.name === prev.name)) return prev;
+        return product.variants![0];
+      });
+    } else {
+      setSelectedVariant(null);
+    }
+  }, [product]);
 
   // Load product detail & related items
   useEffect(() => {
@@ -146,11 +161,13 @@ export const ProductDetailView: React.FC<ProductDetailViewProps> = ({
   }
 
   const targetPhone = formatWhatsAppNumber(product.phone);
-  const totalPrice = product.price * quantity;
+  const activeUnitPrice = selectedVariant ? selectedVariant.price : product.price;
+  const totalPrice = activeUnitPrice * quantity;
   const totalPriceFormatted = formatRupiah(totalPrice);
 
   const orderMsg = formatOrderWhatsAppMessage({
     productName: product.name,
+    variantName: selectedVariant?.name,
     quantity,
     totalPriceFormatted,
     language,
@@ -247,6 +264,9 @@ export const ProductDetailView: React.FC<ProductDetailViewProps> = ({
               decrementQty={decrementQty}
               totalPriceFormatted={totalPriceFormatted}
               whatsappOrderUrl={whatsappOrderUrl}
+              variants={product.variants}
+              selectedVariant={selectedVariant}
+              onSelectVariant={setSelectedVariant}
             />
           </div>
         </div>
