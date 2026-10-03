@@ -8,23 +8,23 @@ const siteUrl =
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: "Seafood & Olahan Laut Khas Mundu Pesisir Cirebon",
+  title: "Olahan Ikan & Seafood Khas Mundu Pesisir Cirebon (Siti Maemunah)",
   description:
-    "Katalog produk seafood dan olahan laut khas Desa Mundu Pesisir Cirebon: Kerupuk Ikan Payur Mekar gurih, Terasi Udang Rebon murni, ikan kering, dan aneka hasil tangkapan nelayan lokal. Higienis, tanpa pengawet kimia. Pesan via WhatsApp.",
+    "Katalog olahan hasil laut segar khas nelayan Desa Mundu Pesisir Cirebon dari UMKM Siti Maemunah: Bandeng Presto duri lunak (35k), Ikan Sarden bumbu segar (12k), dan Pindang Biles gurih (3k). Diolah higienis dari ikan laut segar langsung dari tangkapan nelayan. Pesan via WhatsApp.",
   keywords: [
-    "kerupuk ikan payur cirebon",
-    "terasi rebon murni cirebon",
-    "seafood kering cirebon",
-    "olahan laut mundu pesisir",
-    "ikan kering cirebon",
+    "bandeng presto siti maemunah",
+    "bandeng presto cirebon",
+    "ikan sarden cirebon",
+    "pindang biles cirebon",
+    "olahan ikan mundu pesisir",
     "produk nelayan cirebon",
-    "kerupuk mekar cirebon",
-    "beli seafood online cirebon",
+    "seafood olahan cirebon",
+    "oleh-oleh ikan cirebon",
   ],
   openGraph: {
-    title: "Seafood & Olahan Laut Mundu Pesisir - Kerupuk Ikan & Terasi Rebon",
+    title: "Olahan Ikan Laut Siti Maemunah - Khas Mundu Pesisir Cirebon",
     description:
-      "Kerupuk Ikan Payur Mekar, Terasi Rebon Murni, dan aneka seafood kering dari nelayan Desa Mundu Pesisir Cirebon. Higienis, tanpa pengawet.",
+      "Bandeng Presto duri lunak, Ikan Sarden segar, dan Pindang Biles asli olahan nelayan Desa Mundu Pesisir Cirebon.",
     url: `${siteUrl}/produk/seafood`,
     images: [{ url: "/og-image.jpg", width: 1200, height: 630 }],
   },
