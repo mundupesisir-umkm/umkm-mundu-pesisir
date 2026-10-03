@@ -44,6 +44,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             src={product.image}
             alt={product.name}
             fill
+            unoptimized={product.image?.endsWith(".svg")}
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 380px"
             className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
           />
