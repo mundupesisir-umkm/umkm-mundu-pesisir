@@ -6,4 +6,5 @@ export { AdminSqlSchemaModal } from "./AdminSqlSchemaModal";
 export { ProductAdminTable } from "./ProductAdminTable";
 export { ProductFormModal } from "./ProductFormModal";
 export type { ProductFormData } from "./ProductFormModal";
+export { AdminGuideModal } from "./AdminGuideModal";
 export { TestimonialAdminSection } from "./TestimonialAdminSection";
