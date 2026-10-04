@@ -40,7 +40,7 @@ export const PRODUCT_CATALOG_CONFIG = {
     { id: "seafood", label: "Seafood & Ikan" },
     { id: "beras", label: "Beras & Hasil Tani" },
   ],
-  whatsappAdminNumber: "6281214145254",
+  whatsappAdminNumber: "6282216182885",
   viewAllButtonText: "Lihat Semua Katalog",
   products: [
     // -------------------------------------------------------------
