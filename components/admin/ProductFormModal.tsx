@@ -3,7 +3,12 @@
 import React from "react";
 import { UploadCloud, RefreshCw, Plus, Trash2, BookOpen, ImageIcon, HelpCircle } from "lucide-react";
 import { ProductItem, ProductVariant } from "@/constants/products";
-import { formatRupiah } from "@/lib/supabase";
+import {
+  formatRupiah,
+  ProductCategoryItem,
+  DEFAULT_PRODUCT_CATEGORIES,
+  slugifyCategory,
+} from "@/lib/supabase";
 
 export interface ProductFormData {
   name: string;
@@ -30,6 +35,7 @@ interface ProductFormModalProps {
   onImageFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onSubmit: (e: React.FormEvent) => void;
   onOpenGuideModal?: () => void;
+  categories?: ProductCategoryItem[];
 }
 
 export const ProductFormModal: React.FC<ProductFormModalProps> = ({
@@ -42,7 +48,11 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
   onImageFileChange,
   onSubmit,
   onOpenGuideModal,
+  categories = DEFAULT_PRODUCT_CATEGORIES,
 }) => {
+  const [isCreatingCategory, setIsCreatingCategory] = React.useState(false);
+  const [newCatInput, setNewCatInput] = React.useState("");
+
   if (!isOpen) return null;
 
   // Add a new empty variant row
@@ -179,33 +189,81 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
             {/* Row 2: Category & Label */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block font-bold text-slate-700 mb-1.5">
-                  Kelompok Tab Kategori <span className="text-red-500">*</span>
-                </label>
-                <select
-                  value={formData.categoryKey}
-                  onChange={(e) => {
-                    const key = e.target.value;
-                    let label = formData.categoryLabel;
-                    if (key === "siwang" && (!label || label.includes("SEAFOOD") || label.includes("BERAS"))) {
-                      label = "SIWANG & SAMBAL";
-                    } else if (key === "seafood" && (!label || label.includes("SIWANG") || label.includes("BERAS"))) {
-                      label = "OLAHAN IKAN & HASIL LAUT";
-                    } else if (key === "beras" && (!label || label.includes("SIWANG") || label.includes("SEAFOOD"))) {
-                      label = "BERAS & HASIL TANI";
-                    }
-                    setFormData({
-                      ...formData,
-                      categoryKey: key,
-                      categoryLabel: label,
-                    });
-                  }}
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-[#008276] focus:outline-hidden font-medium text-slate-700 bg-white"
-                >
-                  <option value="siwang">Siwang & Sambal Olahan</option>
-                  <option value="seafood">Seafood & Olahan Hasil Laut</option>
-                  <option value="beras">Beras & Pertanian</option>
-                </select>
+                <div className="flex items-center justify-between mb-1.5">
+                  <label className="font-bold text-slate-700">
+                    Kelompok Tab Kategori <span className="text-red-500">*</span>
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsCreatingCategory(!isCreatingCategory);
+                      setNewCatInput("");
+                    }}
+                    className="text-[11px] font-bold text-[#008276] hover:underline cursor-pointer flex items-center gap-1"
+                  >
+                    {isCreatingCategory ? "Pilih dari Daftar" : "+ Kategori Baru"}
+                  </button>
+                </div>
+
+                {isCreatingCategory ? (
+                  <div className="space-y-1.5">
+                    <input
+                      type="text"
+                      required
+                      value={newCatInput}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        setNewCatInput(val);
+                        const slug = slugifyCategory(val);
+                        setFormData({
+                          ...formData,
+                          categoryKey: slug,
+                          categoryLabel: val.toUpperCase(),
+                        });
+                      }}
+                      placeholder="Ketik nama kategori baru..."
+                      className="w-full px-3.5 py-2.5 rounded-xl border-2 border-[#008276] focus:ring-2 focus:ring-[#008276] focus:outline-hidden font-medium text-slate-800 bg-teal-50/30 text-xs sm:text-sm"
+                      autoFocus
+                    />
+                    <p className="text-[11px] text-slate-500 flex items-center justify-between">
+                      <span>Slug: <strong className="font-mono">{formData.categoryKey || "-"}</strong></span>
+                      <button
+                        type="button"
+                        onClick={() => setIsCreatingCategory(false)}
+                        className="text-slate-400 hover:text-slate-600"
+                      >
+                        Batal
+                      </button>
+                    </p>
+                  </div>
+                ) : (
+                  <select
+                    value={formData.categoryKey}
+                    onChange={(e) => {
+                      const key = e.target.value;
+                      if (key === "__NEW__") {
+                        setIsCreatingCategory(true);
+                        setNewCatInput("");
+                        return;
+                      }
+                      const matched = categories.find((c) => c.id === key);
+                      let label = matched ? matched.label.toUpperCase() : formData.categoryLabel;
+                      setFormData({
+                        ...formData,
+                        categoryKey: key,
+                        categoryLabel: label,
+                      });
+                    }}
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-[#008276] focus:outline-hidden font-medium text-slate-700 bg-white"
+                  >
+                    {categories.map((c) => (
+                      <option key={c.id} value={c.id}>
+                        {c.label}
+                      </option>
+                    ))}
+                    <option value="__NEW__">+ Tambah Kategori Baru...</option>
+                  </select>
+                )}
               </div>
 
               <div>
@@ -220,6 +278,9 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
                   placeholder="Contoh: SIWANG & SAMBAL (IBU MAGFIRO)"
                   className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-[#008276] focus:outline-hidden"
                 />
+                <p className="text-[10px] text-slate-400 mt-1">
+                  Nama yang tercantum pada badge kartu produk
+                </p>
               </div>
             </div>
 
