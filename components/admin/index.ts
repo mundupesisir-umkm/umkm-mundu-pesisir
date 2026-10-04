@@ -8,3 +8,4 @@ export { ProductFormModal } from "./ProductFormModal";
 export type { ProductFormData } from "./ProductFormModal";
 export { AdminGuideModal } from "./AdminGuideModal";
 export { TestimonialAdminSection } from "./TestimonialAdminSection";
+export { CategoryManagerModal } from "./CategoryManagerModal";
