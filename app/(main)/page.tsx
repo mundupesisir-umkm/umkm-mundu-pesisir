@@ -60,7 +60,7 @@ export default async function Home() {
     logo: `${siteUrl}/Mundupesisir.png`,
     image: `${siteUrl}/og-image.jpg`,
     telephone: "+62-812-1414-5254",
-    email: "umkm.mundupesisir@gmail.com",
+    email: "umkmmundupesisir@gmail.com",
     priceRange: "Rp 15.000 - Rp 75.000",
     currenciesAccepted: "IDR",
     paymentAccepted: "Cash, Transfer Bank, OVO, GoPay, QRIS",
@@ -74,8 +74,8 @@ export default async function Home() {
     },
     geo: {
       "@type": "GeoCoordinates",
-      latitude: -6.8165,
-      longitude: 108.56,
+      latitude: -6.7575,
+      longitude: 108.593583,
     },
     openingHoursSpecification: [
       {
@@ -97,7 +97,7 @@ export default async function Home() {
       "https://wa.me/6281214145254",
       "https://www.instagram.com/umkm.mundupesisir",
     ],
-    hasMap: "https://maps.google.com/?q=-6.8165,108.5600",
+    hasMap: "https://maps.google.com/?q=-6.7575,108.593583",
     servesCuisine: ["Kuliner Pesisir", "Makanan Tradisional Cirebon"],
     menu: `${siteUrl}/produk`,
     foundingDate: "2020",
