@@ -22,10 +22,10 @@ export const CONTACT_CONFIG = {
       icon: "WhatsApp",
       title: "Layanan Admin UMKM Desa Mundu",
       subtitle: "Respon tercepat untuk cek stok terpusat, pengiriman, dan info umum desa",
-      primaryValue: "+62 812-1414-5254",
+      primaryValue: "+62 822-1618-2885",
       actionText: "Chat Admin WhatsApp",
       actionHref:
-        "https://wa.me/6281214145254?text=Halo%20Admin%20UMKM%20Mundu%20Pesisir,%20saya%20ingin%20bertanya%20seputar%20produk%20dan%20pemesanan.",
+        "https://wa.me/6282216182885?text=Halo%20Admin%20UMKM%20Mundu%20Pesisir,%20saya%20ingin%20bertanya%20seputar%20produk%20dan%20pemesanan.",
       isPrimary: true,
       statusBadge: "🟢 Admin Desa",
     },
