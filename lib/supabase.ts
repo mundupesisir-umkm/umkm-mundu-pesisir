@@ -498,6 +498,102 @@ export async function updateAdminPassword(newPassword: string): Promise<{
   }
 }
 
+export interface ProductCategoryItem {
+  id: string; // slug / key, e.g. "siwang", "kerajinan"
+  label: string; // display title, e.g. "Siwang & Sambal Olahan"
+  isDefault?: boolean;
+}
+
+export const DEFAULT_PRODUCT_CATEGORIES: ProductCategoryItem[] = [
+  { id: "siwang", label: "Siwang & Sambal Olahan", isDefault: true },
+  { id: "seafood", label: "Seafood & Olahan Hasil Laut", isDefault: true },
+  { id: "beras", label: "Beras & Pertanian", isDefault: true },
+];
+
+/**
+ * Helper to slugify a category name into a clean key
+ */
+export function slugifyCategory(name: string): string {
+  return name
+    .toLowerCase()
+    .trim()
+    .replace(/[^\w\s-]/g, "")
+    .replace(/[\s_-]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+/**
+ * Fetch product categories from admin_settings merged with defaults
+ */
+export async function fetchProductCategories(): Promise<{
+  data: ProductCategoryItem[];
+  error?: string;
+}> {
+  try {
+    const { data, error } = await supabase
+      .from("admin_settings")
+      .select("value")
+      .eq("key", "product_categories")
+      .maybeSingle();
+
+    if (error && error.code !== "PGRST116") {
+      return { data: DEFAULT_PRODUCT_CATEGORIES, error: error.message };
+    }
+
+    if (data && data.value) {
+      try {
+        const parsed: ProductCategoryItem[] = JSON.parse(data.value);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          // Merge with defaults to ensure standard categories are never lost
+          const combined = [...DEFAULT_PRODUCT_CATEGORIES];
+          parsed.forEach((cat) => {
+            if (!combined.some((c) => c.id === cat.id)) {
+              combined.push(cat);
+            }
+          });
+          return { data: combined };
+        }
+      } catch {
+        // Fall back to defaults if parsing fails
+      }
+    }
+
+    return { data: DEFAULT_PRODUCT_CATEGORIES };
+  } catch (err: unknown) {
+    const message =
+      err instanceof Error ? err.message : "Gagal memuat kategori produk";
+    return { data: DEFAULT_PRODUCT_CATEGORIES, error: message };
+  }
+}
+
+/**
+ * Save product categories to Supabase admin_settings
+ */
+export async function saveProductCategories(
+  categories: ProductCategoryItem[]
+): Promise<{ success: boolean; error?: string }> {
+  try {
+    const { error } = await supabase.from("admin_settings").upsert(
+      {
+        key: "product_categories",
+        value: JSON.stringify(categories),
+        updated_at: new Date().toISOString(),
+      },
+      { onConflict: "key" }
+    );
+
+    if (error) {
+      return { success: false, error: error.message };
+    }
+
+    return { success: true };
+  } catch (err: unknown) {
+    const message =
+      err instanceof Error ? err.message : "Gagal menyimpan kategori ke database";
+    return { success: false, error: message };
+  }
+}
+
 /**
  * Check if the `testimonials` table exists in Supabase
  */
