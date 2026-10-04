@@ -9,7 +9,7 @@ export const revalidate = 3600;
 export const metadata: Metadata = {
   title: "Kontak & Lokasi - Gerai UMKM Mundu Pesisir Cirebon",
   description:
-    "Hubungi UMKM Desa Mundu Pesisir via WhatsApp +62 812-1414-5254, email umkm.mundupesisir@gmail.com, atau kunjungi gerai kami di Desa Mundu Pesisir, Kecamatan Mundu, Kabupaten Cirebon. Buka setiap hari 07:30–17:00 WIB.",
+    "Hubungi UMKM Desa Mundu Pesisir via WhatsApp +62 812-1414-5254, email umkmmundupesisir@gmail.com, atau kunjungi gerai kami di Desa Mundu Pesisir, Kecamatan Mundu, Kabupaten Cirebon. Buka setiap hari 07:30–17:00 WIB.",
   keywords: [
     "kontak umkm mundu pesisir",
     "alamat gerai siwang cirebon",
@@ -102,7 +102,7 @@ export default function KontakPage() {
     name: "UMKM Desa Mundu Pesisir",
     url: siteUrl,
     telephone: "+62-812-1414-5254",
-    email: "umkm.mundupesisir@gmail.com",
+    email: "umkmmundupesisir@gmail.com",
     address: {
       "@type": "PostalAddress",
       streetAddress: "Desa Mundu Pesisir",
@@ -111,7 +111,7 @@ export default function KontakPage() {
       postalCode: "45173",
       addressCountry: "ID",
     },
-    geo: { "@type": "GeoCoordinates", latitude: -6.8165, longitude: 108.56 },
+    geo: { "@type": "GeoCoordinates", latitude: -6.7575, longitude: 108.593583 },
     openingHoursSpecification: [
       {
         "@type": "OpeningHoursSpecification",
@@ -130,13 +130,13 @@ export default function KontakPage() {
       },
       {
         "@type": "ContactPoint",
-        email: "umkm.mundupesisir@gmail.com",
+        email: "umkmmundupesisir@gmail.com",
         contactType: "sales",
         areaServed: "ID",
         availableLanguage: ["Indonesian"],
       },
     ],
-    hasMap: "https://maps.google.com/?q=-6.8165,108.5600",
+    hasMap: "https://maps.google.com/?q=-6.7575,108.593583",
   };
 
   return (
