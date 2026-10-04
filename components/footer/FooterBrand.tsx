@@ -46,7 +46,7 @@ export const FooterBrand: React.FC<FooterBrandProps> = ({ className }) => {
       {/* Social & Contact Icons Row (matches reference icon row) */}
       <div className="flex items-center gap-2 pt-1">
         <a
-          href="https://wa.me/6281214145254"
+          href="https://wa.me/6282216182885"
           target="_blank"
           rel="noopener noreferrer"
           className="w-8 h-8 rounded-lg bg-white/80 border border-[#d8c7b4] flex items-center justify-center text-[#0a2642] hover:bg-[#0a2642] hover:text-white hover:border-[#0a2642] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 ease-out shadow-2xs"
