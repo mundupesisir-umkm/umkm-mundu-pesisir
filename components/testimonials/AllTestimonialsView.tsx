@@ -222,7 +222,7 @@ export const AllTestimonialsView: React.FC<AllTestimonialsViewProps> = ({
             </p>
             <div className="mt-5 flex items-center justify-center gap-3">
               <a
-                href="https://wa.me/6281214145254?text=Halo%20Admin%20UMKM%20Mundu%20Pesisir,%20saya%20ingin%20memberikan%20ulasan%20dan%20testimoni%20produk."
+                href="https://wa.me/6282216182885?text=Halo%20Admin%20UMKM%20Mundu%20Pesisir,%20saya%20ingin%20memberikan%20ulasan%20dan%20testimoni%20produk."
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-5 py-2.5 rounded-xl bg-[#00c853] hover:bg-[#00b049] text-white text-xs sm:text-sm font-bold shadow-xs transition-colors inline-flex items-center gap-2"
@@ -319,7 +319,7 @@ export const AllTestimonialsView: React.FC<AllTestimonialsViewProps> = ({
 
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 w-full sm:w-auto shrink-0">
               <a
-                href="https://wa.me/6281214145254?text=Halo%20Admin%20UMKM%20Mundu%20Pesisir,%20saya%20ingin%20memberikan%20ulasan%20dan%20testimoni%20produk."
+                href="https://wa.me/6282216182885?text=Halo%20Admin%20UMKM%20Mundu%20Pesisir,%20saya%20ingin%20memberikan%20ulasan%20dan%20testimoni%20produk."
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-[#00c853] hover:bg-[#00b049] text-white text-xs sm:text-sm font-bold shadow-xs hover:-translate-y-0.5 transition-all text-center"
