@@ -373,10 +373,10 @@ export const en: TranslationDictionary = {
         title: "Central UMKM Village Admin",
         subtitle:
           "Fastest response for central stock checks, shipping, and village inquiries",
-        primaryValue: "+62 812-1414-5254",
+        primaryValue: "+62 822-1618-2885",
         actionText: "Chat Admin WhatsApp",
         actionHref:
-          "https://wa.me/6281214145254?text=Hello%20Mundu%20Pesisir%20Admin,%20I%20would%20like%20to%20inquire%20about%20products%20and%20orders.",
+          "https://wa.me/6282216182885?text=Hello%20Mundu%20Pesisir%20Admin,%20I%20would%20like%20to%20inquire%20about%20products%20and%20orders.",
         isPrimary: true,
         statusBadge: "🟢 Village Admin",
       },
