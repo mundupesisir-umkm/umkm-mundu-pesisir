@@ -59,7 +59,7 @@ export default async function Home() {
     url: siteUrl,
     logo: `${siteUrl}/Mundupesisir.png`,
     image: `${siteUrl}/og-image.jpg`,
-    telephone: "+62-812-1414-5254",
+    telephone: "+62-822-1618-2885",
     email: "umkmmundupesisir@gmail.com",
     priceRange: "Rp 15.000 - Rp 75.000",
     currenciesAccepted: "IDR",
@@ -94,7 +94,7 @@ export default async function Home() {
       },
     ],
     sameAs: [
-      "https://wa.me/6281214145254",
+      "https://wa.me/6282216182885",
       "https://www.instagram.com/umkm.mundupesisir",
     ],
     hasMap: "https://maps.google.com/?q=-6.7575,108.593583",
