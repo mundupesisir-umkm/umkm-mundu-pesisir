@@ -56,7 +56,7 @@ export const FooterBrand: React.FC<FooterBrandProps> = ({ className }) => {
         </a>
 
         <a
-          href="mailto:umkm.mundupesisir@gmail.com"
+          href="mailto:umkmmundupesisir@gmail.com"
           className="w-8 h-8 rounded-lg bg-white/80 border border-[#d8c7b4] flex items-center justify-center text-[#0a2642] hover:bg-[#0a2642] hover:text-white hover:border-[#0a2642] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 ease-out shadow-2xs"
           aria-label="Email"
         >
@@ -64,7 +64,7 @@ export const FooterBrand: React.FC<FooterBrandProps> = ({ className }) => {
         </a>
 
         <a
-          href="https://maps.google.com/?q=Desa+Mundu+Pesisir+Cirebon"
+          href="https://maps.google.com/?q=-6.7575,108.593583"
           target="_blank"
           rel="noopener noreferrer"
           className="w-8 h-8 rounded-lg bg-white/80 border border-[#d8c7b4] flex items-center justify-center text-[#0a2642] hover:bg-[#0a2642] hover:text-white hover:border-[#0a2642] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 ease-out shadow-2xs"
