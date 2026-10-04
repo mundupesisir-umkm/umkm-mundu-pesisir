@@ -118,7 +118,7 @@ export default async function ProductDetailPage({ params }: Props) {
     .toISOString()
     .split("T")[0];
 
-  const sellerPhone = product?.phone || "+62-812-1414-5254";
+  const sellerPhone = product?.phone || "+62-822-1618-2885";
 
   // Build JSON-LD Offers (AggregateOffer if multiple variants, Offer otherwise)
   const offersSchema =
