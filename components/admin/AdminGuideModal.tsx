@@ -405,7 +405,7 @@ export const AdminGuideModal: React.FC<AdminGuideModalProps> = ({
                   Format Nomor WhatsApp Resmi
                 </h4>
                 <p className="text-xs sm:text-sm text-emerald-900/90 leading-relaxed">
-                  Gunakan nomor ponsel WhatsApp aktif yang diawali dengan format standar <code className="px-1.5 py-0.5 rounded bg-emerald-100 font-mono text-xs">08...</code> (misal: <code className="px-1.5 py-0.5 rounded bg-emerald-100 font-mono text-xs">081214145254</code>). Sistem otomatis mengonversinya menjadi link WhatsApp internasional <code className="px-1.5 py-0.5 rounded bg-emerald-100 font-mono text-xs">wa.me/62...</code>.
+                  Gunakan nomor ponsel WhatsApp aktif yang diawali dengan format standar <code className="px-1.5 py-0.5 rounded bg-emerald-100 font-mono text-xs">08...</code> (misal: <code className="px-1.5 py-0.5 rounded bg-emerald-100 font-mono text-xs">082216182885</code>). Sistem otomatis mengonversinya menjadi link WhatsApp internasional <code className="px-1.5 py-0.5 rounded bg-emerald-100 font-mono text-xs">wa.me/62...</code>.
                 </p>
               </div>
 
@@ -425,7 +425,7 @@ export const AdminGuideModal: React.FC<AdminGuideModalProps> = ({
                     <div className="p-3 rounded-xl bg-teal-50 border border-teal-200 space-y-1">
                       <span className="font-bold text-[#006e64] block">🏛️ Nomor Admin Terpusat Desa</span>
                       <p className="text-teal-900">
-                        Jika dikosongkan, pesanan otomatis dialihkan ke nomor WhatsApp Layanan Resmi Admin Desa Mundu Pesisir (<strong>+62 812-1414-5254</strong>).
+                        Jika dikosongkan, pesanan otomatis dialihkan ke nomor WhatsApp Layanan Resmi Admin Desa Mundu Pesisir (<strong>+62 822-1618-2885</strong>).
                       </p>
                     </div>
                   </div>
