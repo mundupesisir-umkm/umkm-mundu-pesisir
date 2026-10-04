@@ -22,8 +22,8 @@ export const FooterInfo: React.FC<FooterInfoProps> = ({ className }) => {
       },
       {
         icon: Phone,
-        text: "+62 812-1414-5254",
-        href: "https://wa.me/6281214145254",
+        text: "+62 822-1618-2885",
+        href: "https://wa.me/6282216182885",
         target: "_blank",
       },
       {
