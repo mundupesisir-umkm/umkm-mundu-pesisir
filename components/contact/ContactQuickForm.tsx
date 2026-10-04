@@ -27,7 +27,7 @@ export const ContactQuickForm: React.FC = () => {
       formData.topic
     )}%0A*Pesan:*%0A${encodeURIComponent(formData.message)}`;
 
-    const waUrl = `https://wa.me/6281214145254?text=${text}`;
+    const waUrl = `https://wa.me/6282216182885?text=${text}`;
     window.open(waUrl, "_blank");
     setIsSubmitted(true);
   };
