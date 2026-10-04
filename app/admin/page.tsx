@@ -11,6 +11,10 @@ import {
   uploadProductImage,
   formatRupiah,
   SUPABASE_SQL_SCHEMA,
+  fetchProductCategories,
+  ProductCategoryItem,
+  DEFAULT_PRODUCT_CATEGORIES,
+  fetchTestimonials,
 } from "@/lib/supabase";
 import { ProductItem } from "@/constants/products";
 import {
@@ -24,6 +28,7 @@ import {
   ProductFormModal,
   ProductFormData,
   TestimonialAdminSection,
+  CategoryManagerModal,
 } from "@/components/admin";
 
 const INITIAL_FORM_DATA: ProductFormData = {
@@ -51,11 +56,16 @@ export default function AdminPage() {
   // Guide Modal State
   const [isGuideModalOpen, setIsGuideModalOpen] = useState<boolean>(false);
 
+  // Category Manager Modal State
+  const [isCategoryModalOpen, setIsCategoryModalOpen] = useState<boolean>(false);
+
   // Active Tab
   const [adminTab, setAdminTab] = useState<"products" | "testimonials">("products");
 
   // Data & Supabase Status
   const [products, setProducts] = useState<ProductItem[]>([]);
+  const [categories, setCategories] = useState<ProductCategoryItem[]>(DEFAULT_PRODUCT_CATEGORIES);
+  const [testimonialCount, setTestimonialCount] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
   const [actionLoading, setActionLoading] = useState<boolean>(false);
   const [tableExists, setTableExists] = useState<boolean | null>(null);
@@ -102,11 +112,35 @@ export default function AdminPage() {
         return;
       }
 
-      const res = await fetchProducts();
-      if (!res.error) {
-        setProducts(res.data);
-      } else {
-        showToast(`Gagal memuat produk: ${res.error}`);
+      const [catRes, prodRes, testRes] = await Promise.all([
+        fetchProductCategories(),
+        fetchProducts(),
+        fetchTestimonials().catch(() => ({ data: [] })),
+      ]);
+
+      if (prodRes && !prodRes.error) {
+        setProducts(prodRes.data);
+      } else if (prodRes?.error) {
+        showToast(`Gagal memuat produk: ${prodRes.error}`);
+      }
+
+      // Merge saved categories with any product categoryKeys
+      const loadedCats = [...(catRes.data || DEFAULT_PRODUCT_CATEGORIES)];
+      if (prodRes && prodRes.data) {
+        prodRes.data.forEach((p) => {
+          if (p.categoryKey && !loadedCats.some((c) => c.id === p.categoryKey)) {
+            loadedCats.push({
+              id: p.categoryKey,
+              label: p.categoryLabel || p.categoryKey.toUpperCase(),
+              isDefault: false,
+            });
+          }
+        });
+      }
+      setCategories(loadedCats);
+
+      if (testRes && testRes.data) {
+        setTestimonialCount(testRes.data.length);
       }
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "Gagal memuat data";
@@ -291,8 +325,9 @@ export default function AdminPage() {
       (acc, p) => acc + (p.variants && p.variants.length > 0 ? p.variants.length : 1),
       0
     );
-    return { total, siwang, seafood, beras, variantsCount };
-  }, [products]);
+    const categoriesCount = categories.length;
+    return { total, siwang, seafood, beras, variantsCount, categoriesCount };
+  }, [products, categories]);
 
   // Screen 1: Unauthenticated
   if (!isAuthenticated) {
@@ -315,6 +350,7 @@ export default function AdminPage() {
         adminTab={adminTab}
         setAdminTab={setAdminTab}
         productCount={products.length}
+        testimonialCount={testimonialCount}
         onOpenGuideModal={() => setIsGuideModalOpen(true)}
         onOpenPasswordModal={() => setIsPasswordModalOpen(true)}
         onLogout={handleLogout}
@@ -344,9 +380,11 @@ export default function AdminPage() {
             setSearchQuery={setSearchQuery}
             categoryFilter={categoryFilter}
             setCategoryFilter={setCategoryFilter}
+            categories={categories}
             onRefresh={loadData}
             onOpenCreateModal={handleOpenCreateModal}
             onOpenEditModal={handleOpenEditModal}
+            onOpenCategoryModal={() => setIsCategoryModalOpen(true)}
             deleteConfirmId={deleteConfirmId}
             setDeleteConfirmId={setDeleteConfirmId}
             onDeleteProduct={handleDeleteProduct}
@@ -375,6 +413,17 @@ export default function AdminPage() {
         onImageFileChange={handleImageFileChange}
         onSubmit={handleSubmitProduct}
         onOpenGuideModal={() => setIsGuideModalOpen(true)}
+        categories={categories}
+      />
+
+      {/* Modal: Manage Categories */}
+      <CategoryManagerModal
+        isOpen={isCategoryModalOpen}
+        onClose={() => setIsCategoryModalOpen(false)}
+        categories={categories}
+        products={products}
+        onCategoriesUpdated={(newCats) => setCategories(newCats)}
+        onShowToast={showToast}
       />
 
       {/* Modal: Guide for Filling Data */}
