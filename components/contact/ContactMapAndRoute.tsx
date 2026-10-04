@@ -23,7 +23,7 @@ export const ContactMapAndRoute: React.FC = () => {
           </div>
 
           <a
-            href="https://maps.google.com/?q=Desa+Mundu+Pesisir+Cirebon"
+            href="https://maps.google.com/?q=-6.7575,108.593583"
             target="_blank"
             rel="noopener noreferrer"
             className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold transition-colors shrink-0"
@@ -37,7 +37,7 @@ export const ContactMapAndRoute: React.FC = () => {
         <div className="relative aspect-video sm:aspect-16/10 w-full rounded-xl sm:rounded-2xl overflow-hidden border border-slate-200 bg-slate-100">
           <iframe
             title="Peta Lokasi Desa Mundu Pesisir Cirebon"
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15849.208754160453!2d108.5855071!3d-6.7337424!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e6f1d8717c18151%3A0xe54e1a06700c3b88!2sMundu%20Pesisir%2C%20Mundu%2C%20Cirebon%20Regency%2C%20West%20Java!5e0!3m2!1sen!2sid!4v1700000000000!5m2!1sen!2sid"
+            src="https://maps.google.com/maps?q=-6.7575,108.593583&hl=id&z=16&output=embed"
             width="100%"
             height="100%"
             style={{ border: 0 }}
@@ -50,7 +50,7 @@ export const ContactMapAndRoute: React.FC = () => {
 
         {/* Mobile button to open Google Maps */}
         <a
-          href="https://maps.google.com/?q=Desa+Mundu+Pesisir+Cirebon"
+          href="https://maps.google.com/?q=-6.7575,108.593583"
           target="_blank"
           rel="noopener noreferrer"
           className="sm:hidden mt-3 w-full inline-flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg bg-slate-100 text-slate-700 text-xs font-semibold text-center"
