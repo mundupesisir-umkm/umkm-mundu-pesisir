@@ -55,7 +55,7 @@ export const ProductProducerCard: React.FC<ProductProducerCardProps> = ({
       <div className="mt-3 pt-3 border-t border-white/10 flex items-center justify-between text-xs">
         <span className="text-slate-300">{t.productDetail.producerWa}</span>
         <span className="font-mono font-bold text-[#7ee3c8]">
-          {product.phone || "0812-1414-5254"}
+          {product.phone || "0822-1618-2885"}
         </span>
       </div>
     </div>
