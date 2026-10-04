@@ -59,12 +59,27 @@ export const AllProductsCatalogView: React.FC<AllProductsCatalogViewProps> = ({
     { id: "name-asc", label: t.catalog.sortNameAsc },
   ], [t]);
 
-  const localizedCategories = useMemo(() => [
-    { id: "all", label: t.catalog.allCategory },
-    { id: "siwang", label: t.catalog.siwangCategory },
-    { id: "seafood", label: t.catalog.seafoodCategory },
-    { id: "beras", label: t.catalog.berasCategory },
-  ], [t]);
+  const localizedCategories = useMemo(() => {
+    const base = [
+      { id: "all", label: t.catalog.allCategory },
+      { id: "siwang", label: t.catalog.siwangCategory },
+      { id: "seafood", label: t.catalog.seafoodCategory },
+      { id: "beras", label: t.catalog.berasCategory },
+    ];
+    // Gather any additional custom categories from products that aren't in base
+    const customCats: { id: string; label: string }[] = [];
+    products.forEach((p) => {
+      if (p.categoryKey && !base.some((b) => b.id === p.categoryKey)) {
+        if (!customCats.some((c) => c.id === p.categoryKey)) {
+          customCats.push({
+            id: p.categoryKey,
+            label: p.categoryLabel || p.categoryKey.toUpperCase(),
+          });
+        }
+      }
+    });
+    return [...base, ...customCats];
+  }, [t, products]);
 
   // Filter & Sort Logic
   const filteredAndSortedProducts = useMemo(() => {
