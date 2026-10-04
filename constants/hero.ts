@@ -19,7 +19,7 @@ export const HERO_CONFIG = {
   exploreButtonHref: "#produk",
   whatsappButtonText: "Tanya via WhatsApp",
   whatsappButtonHref:
-    "https://wa.me/6281214145254?text=Halo%20Admin%20UMKM%20Mundu%20Pesisir,%20saya%20ingin%20bertanya%20seputar%20produk%20siwang%20dan%20olahan%20laut.",
+    "https://wa.me/6282216182885?text=Halo%20Admin%20UMKM%20Mundu%20Pesisir,%20saya%20ingin%20bertanya%20seputar%20produk%20siwang%20dan%20olahan%20laut.",
   image: {
     src: "/siwang-hero.jpg",
     alt: "Siwang Gurih Terasi Bawang Khas Mundu Pesisir",
