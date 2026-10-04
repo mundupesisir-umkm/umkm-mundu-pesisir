@@ -9,7 +9,7 @@ export const revalidate = 3600;
 export const metadata: Metadata = {
   title: "Kontak & Lokasi - Gerai UMKM Mundu Pesisir Cirebon",
   description:
-    "Hubungi UMKM Desa Mundu Pesisir via WhatsApp +62 812-1414-5254, email umkmmundupesisir@gmail.com, atau kunjungi gerai kami di Desa Mundu Pesisir, Kecamatan Mundu, Kabupaten Cirebon. Buka setiap hari 07:30–17:00 WIB.",
+    "Hubungi UMKM Desa Mundu Pesisir via WhatsApp +62 822-1618-2885, email umkmmundupesisir@gmail.com, atau kunjungi gerai kami di Desa Mundu Pesisir, Kecamatan Mundu, Kabupaten Cirebon. Buka setiap hari 07:30–17:00 WIB.",
   keywords: [
     "kontak umkm mundu pesisir",
     "alamat gerai siwang cirebon",
@@ -101,7 +101,7 @@ export default function KontakPage() {
     "@id": `${siteUrl}/#organization`,
     name: "UMKM Desa Mundu Pesisir",
     url: siteUrl,
-    telephone: "+62-812-1414-5254",
+    telephone: "+62-822-1618-2885",
     email: "umkmmundupesisir@gmail.com",
     address: {
       "@type": "PostalAddress",
@@ -123,7 +123,7 @@ export default function KontakPage() {
     contactPoint: [
       {
         "@type": "ContactPoint",
-        telephone: "+62-812-1414-5254",
+        telephone: "+62-822-1618-2885",
         contactType: "customer service",
         areaServed: "ID",
         availableLanguage: ["Indonesian"],
