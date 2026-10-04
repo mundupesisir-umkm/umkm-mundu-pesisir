@@ -14,8 +14,11 @@ import {
   BookOpen,
   Wheat,
   Fish,
+  FolderPlus,
+  Tag,
 } from "lucide-react";
 import { ProductItem } from "@/constants/products";
+import { ProductCategoryItem } from "@/lib/supabase";
 
 export interface ProductStats {
   total: number;
@@ -23,6 +26,7 @@ export interface ProductStats {
   seafood: number;
   beras: number;
   variantsCount: number;
+  categoriesCount: number;
 }
 
 interface ProductAdminTableProps {
@@ -35,9 +39,11 @@ interface ProductAdminTableProps {
   setSearchQuery: (query: string) => void;
   categoryFilter: string;
   setCategoryFilter: (cat: string) => void;
+  categories: ProductCategoryItem[];
   onRefresh: () => void;
   onOpenCreateModal: () => void;
   onOpenEditModal: (product: ProductItem) => void;
+  onOpenCategoryModal: () => void;
   deleteConfirmId: string | null;
   setDeleteConfirmId: (id: string | null) => void;
   onDeleteProduct: (id: string) => void;
@@ -46,6 +52,7 @@ interface ProductAdminTableProps {
 }
 
 export const ProductAdminTable: React.FC<ProductAdminTableProps> = ({
+  products,
   filteredProducts,
   stats,
   loading,
@@ -54,9 +61,11 @@ export const ProductAdminTable: React.FC<ProductAdminTableProps> = ({
   setSearchQuery,
   categoryFilter,
   setCategoryFilter,
+  categories,
   onRefresh,
   onOpenCreateModal,
   onOpenEditModal,
+  onOpenCategoryModal,
   deleteConfirmId,
   setDeleteConfirmId,
   onDeleteProduct,
@@ -96,6 +105,20 @@ export const ProductAdminTable: React.FC<ProductAdminTableProps> = ({
         </div>
 
         <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/80 shadow-xs flex items-center gap-3.5">
+          <div className="w-11 h-11 rounded-xl bg-teal-500/10 text-[#008276] flex items-center justify-center shrink-0">
+            <FolderPlus className="w-5 h-5" />
+          </div>
+          <div>
+            <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-wider block">
+              Kategori Aktif
+            </span>
+            <span className="text-xl sm:text-2xl font-extrabold text-[#008276]">
+              {stats.categoriesCount}
+            </span>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/80 shadow-xs flex items-center gap-3.5">
           <div className="w-11 h-11 rounded-xl bg-amber-500/10 text-amber-600 flex items-center justify-center shrink-0">
             <Package className="w-5 h-5" />
           </div>
@@ -109,30 +132,16 @@ export const ProductAdminTable: React.FC<ProductAdminTableProps> = ({
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/80 shadow-xs flex items-center gap-3.5">
-          <div className="w-11 h-11 rounded-xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center shrink-0">
-            <Wheat className="w-5 h-5" />
-          </div>
-          <div>
-            <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-wider block">
-              Beras & Tani
-            </span>
-            <span className="text-xl sm:text-2xl font-extrabold text-[#0a2642]">
-              {stats.beras}
-            </span>
-          </div>
-        </div>
-
-        <div className="col-span-2 lg:col-span-1 bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/80 shadow-xs flex items-center gap-3.5">
+        <div className="col-span-2 sm:col-span-1 bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/80 shadow-xs flex items-center gap-3.5">
           <div className="w-11 h-11 rounded-xl bg-blue-500/10 text-blue-600 flex items-center justify-center shrink-0">
             <Fish className="w-5 h-5" />
           </div>
           <div>
             <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-wider block">
-              Seafood & Ikan
+              Seafood & Lainnya
             </span>
             <span className="text-xl sm:text-2xl font-extrabold text-[#0a2642]">
-              {stats.seafood}
+              {stats.seafood + stats.beras}
             </span>
           </div>
         </div>
@@ -154,10 +163,21 @@ export const ProductAdminTable: React.FC<ProductAdminTableProps> = ({
           </div>
 
           <div className="flex flex-wrap items-center gap-2.5">
+            <button
+              type="button"
+              onClick={onOpenCategoryModal}
+              className="px-3.5 py-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs sm:text-sm font-bold flex items-center gap-2 shadow-2xs hover:shadow-xs transition-all cursor-pointer"
+              title="Kelola Kelompok Tab Kategori Baru"
+            >
+              <FolderPlus className="w-4 h-4 text-[#008276]" />
+              <span>Kelola Kategori ({categories.length})</span>
+            </button>
+
             {onOpenGuideModal && (
               <button
+                type="button"
                 onClick={onOpenGuideModal}
-                className="px-4 py-2.5 rounded-xl border border-teal-200 bg-teal-50 hover:bg-teal-100 text-[#006e64] text-xs sm:text-sm font-bold flex items-center gap-2 transition-all cursor-pointer"
+                className="px-3.5 py-2.5 rounded-xl border border-teal-200 bg-teal-50 hover:bg-teal-100 text-[#006e64] text-xs sm:text-sm font-bold flex items-center gap-2 transition-all cursor-pointer"
                 title="Buka panduan pengisian lengkap"
               >
                 <BookOpen className="w-4 h-4 text-[#008276]" />
@@ -166,6 +186,7 @@ export const ProductAdminTable: React.FC<ProductAdminTableProps> = ({
             )}
 
             <button
+              type="button"
               onClick={onOpenCreateModal}
               disabled={tableExists === false}
               className="px-5 py-2.5 rounded-xl bg-[#008276] hover:bg-[#006e64] disabled:opacity-50 disabled:cursor-not-allowed text-white text-xs sm:text-sm font-bold flex items-center gap-2 shadow-md hover:shadow-lg transition-all cursor-pointer"
@@ -193,12 +214,17 @@ export const ProductAdminTable: React.FC<ProductAdminTableProps> = ({
             <select
               value={categoryFilter}
               onChange={(e) => setCategoryFilter(e.target.value)}
-              className="px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs sm:text-sm font-medium text-slate-700 focus:outline-hidden focus:ring-2 focus:ring-[#008276] w-full sm:w-auto"
+              className="px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs sm:text-sm font-semibold text-slate-700 focus:outline-hidden focus:ring-2 focus:ring-[#008276] w-full sm:w-auto cursor-pointer"
             >
-              <option value="all">Semua Kategori</option>
-              <option value="siwang">Siwang & Sambal</option>
-              <option value="beras">Beras & Pertanian</option>
-              <option value="seafood">Seafood & Olahan Ikan</option>
+              <option value="all">Semua Kategori ({stats.total})</option>
+              {categories.map((c) => {
+                const count = products.filter((p) => p.categoryKey === c.id).length;
+                return (
+                  <option key={c.id} value={c.id}>
+                    {c.label} ({count})
+                  </option>
+                );
+              })}
             </select>
 
             <button
