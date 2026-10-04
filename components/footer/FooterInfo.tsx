@@ -17,7 +17,7 @@ export const FooterInfo: React.FC<FooterInfoProps> = ({ className }) => {
       {
         icon: MapPin,
         text: t.footer.addressDesc || "Desa Mundu Pesisir, Kec. Mundu, Kab. Cirebon, Jawa Barat 45173",
-        href: "https://maps.google.com/?q=Desa+Mundu+Pesisir+Cirebon",
+        href: "https://maps.google.com/?q=-6.7575,108.593583",
         target: "_blank",
       },
       {
@@ -28,8 +28,8 @@ export const FooterInfo: React.FC<FooterInfoProps> = ({ className }) => {
       },
       {
         icon: Mail,
-        text: "umkm.mundupesisir@gmail.com",
-        href: "mailto:umkm.mundupesisir@gmail.com",
+        text: "umkmmundupesisir@gmail.com",
+        href: "mailto:umkmmundupesisir@gmail.com",
       },
       {
         icon: Clock,
