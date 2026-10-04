@@ -13,7 +13,7 @@ export function cn(...inputs: ClassValue[]) {
  */
 export function formatWhatsAppNumber(phone?: string | null): string {
   if (!phone || typeof phone !== "string") {
-    return "6281214145254";
+    return "6282216182885";
   }
   let cleaned = phone.replace(/[^0-9]/g, "");
   if (cleaned.startsWith("0")) {
@@ -21,6 +21,6 @@ export function formatWhatsAppNumber(phone?: string | null): string {
   } else if (cleaned.startsWith("8")) {
     cleaned = "62" + cleaned;
   }
-  return cleaned || "6281214145254";
+  return cleaned || "6282216182885";
 }
 
