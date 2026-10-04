@@ -131,7 +131,7 @@ export const ProductCatalogSection: React.FC<ProductCatalogSectionProps> = ({
             </p>
             <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
               <a
-                href="https://wa.me/6281214145254?text=Halo%20Admin%20UMKM%20Mundu%20Pesisir%2C%20saya%20ingin%20menanyakan%20katalog%20produk%20terbaru."
+                href="https://wa.me/6282216182885?text=Halo%20Admin%20UMKM%20Mundu%20Pesisir%2C%20saya%20ingin%20menanyakan%20katalog%20produk%20terbaru."
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-5 py-2.5 rounded-full bg-[#008276] hover:bg-[#006e64] text-white text-xs sm:text-sm font-bold shadow-xs transition-all inline-flex items-center gap-2"
