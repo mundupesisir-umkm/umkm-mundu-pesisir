@@ -19,7 +19,7 @@ export const FOOTER_CONFIG = {
       icon: "MapPin",
       label: "Alamat",
       value: "Desa Mundu Pesisir, Kec. Mundu, Kab. Cirebon, Jawa Barat 45173",
-      href: "https://maps.google.com/?q=Desa+Mundu+Pesisir+Cirebon",
+      href: "https://maps.google.com/?q=-6.7575,108.593583",
     },
     {
       icon: "Phone",
@@ -30,8 +30,8 @@ export const FOOTER_CONFIG = {
     {
       icon: "Mail",
       label: "Email Resmi",
-      value: "umkm.mundupesisir@gmail.com",
-      href: "mailto:umkm.mundupesisir@gmail.com",
+      value: "umkmmundupesisir@gmail.com",
+      href: "mailto:umkmmundupesisir@gmail.com",
     },
     {
       icon: "Clock",
