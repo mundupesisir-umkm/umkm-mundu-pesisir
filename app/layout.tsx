@@ -130,8 +130,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <meta name="theme-color" content="#008276" />
         <meta name="geo.region" content="ID-JB" />
         <meta name="geo.placename" content="Desa Mundu Pesisir, Kabupaten Cirebon, Jawa Barat" />
-        <meta name="geo.position" content="-6.8165;108.5600" />
-        <meta name="ICBM" content="-6.8165, 108.5600" />
+        <meta name="geo.position" content="-6.7575;108.593583" />
+        <meta name="ICBM" content="-6.7575, 108.593583" />
       </head>
       <body className="min-h-full flex flex-col bg-white text-slate-900 font-sans selection:bg-[#0a2642] selection:text-[#dfc19c]">
         <LanguageProvider>
