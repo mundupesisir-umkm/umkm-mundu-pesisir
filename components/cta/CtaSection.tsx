@@ -35,7 +35,6 @@ export const CtaSection: React.FC<CtaSectionProps> = ({ className }) => {
             <div className="flex flex-col gap-3.5 max-w-2xl">
               {/* Top Badge */}
               <div className="inline-flex items-center gap-2 self-start px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-[#f4ece1] text-[#8a6843] border border-[#d8c7b4]">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#8a6843] animate-pulse" />
                 <span>{t.cta.badge}</span>
               </div>
 
