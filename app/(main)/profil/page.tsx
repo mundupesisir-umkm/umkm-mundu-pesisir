@@ -79,8 +79,8 @@ export default function ProfilPage() {
         "Desa nelayan bersejarah di Kecamatan Mundu, Kabupaten Cirebon. Terkenal sebagai sentra Siwang (Terasi Bawang) dan memiliki tradisi Nadran warisan leluhur.",
       geo: {
         "@type": "GeoCoordinates",
-        latitude: -6.8165,
-        longitude: 108.56,
+        latitude: -6.7575,
+        longitude: 108.593583,
       },
     },
   };
@@ -94,8 +94,8 @@ export default function ProfilPage() {
     url: `${siteUrl}/profil`,
     geo: {
       "@type": "GeoCoordinates",
-      latitude: -6.8165,
-      longitude: 108.56,
+      latitude: -6.7575,
+      longitude: 108.593583,
     },
     address: {
       "@type": "PostalAddress",
