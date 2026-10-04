@@ -35,7 +35,6 @@ export const ContactQuickForm: React.FC = () => {
   return (
     <div className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-7 border border-slate-200 shadow-md">
       <div className="flex items-center gap-2 mb-2">
-        <span className="w-2.5 h-2.5 rounded-full bg-[#008276]" />
         <span className="text-xs font-bold uppercase tracking-wider text-[#008276]">
           {t.contact.formBadge}
         </span>
